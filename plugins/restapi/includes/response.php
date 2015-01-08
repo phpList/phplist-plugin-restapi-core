@@ -13,11 +13,21 @@ class Response{
 
     private $result;
 
-    function __construct(){
+    /**
+     * Initialise empty vars
+     */
+    function __construct()
+    {
         $this->result = array();
     }
 
-    function setError( $code, $message ){
+    /**
+     * Save error and error code inside response
+     * @param string $code error code to store
+     * @param string $message error message to store
+     */
+    function setError( $code, $message )
+    {
         $this->result['status'] = 'error';
         $this->result['type'] = 'Error';
         $this->result['data'] = array (
@@ -26,31 +36,41 @@ class Response{
         );
     }
 
-    function setData( $type, $data ){
-
+    /**
+     * Save data inside response
+     * @param string $type data type
+     * @param string $data data to be stored
+     * @return NULL
+     */
+    function setData( $type, $data )
+    {
         $this->result['status'] = 'success';
         $this->result['type'] = $type;
         $this->result['data'] = $data;
-
-    }
-
-    function output(){
-        header('Content-Type: application/json');
-        echo $this->json_encode2( $this->result );
-        die(0);
-
     }
 
     /**
-     * Convert an object into an associative array
-     *
-     * This function converts an object into an associative array by iterating
-     * over its public properties. Because this function uses the foreach
-     * construct, Iterators are respected. It also works on arrays of objects.
-     *
-     * @return array
+     * Print error message as JSON and die
+     * @return NULL
      */
-    function object_to_array($var) {
+    function output()
+    {
+        header('Content-Type: application/json');
+        echo $this->jsonEncodeIm( $this->result );
+        die(0);
+    }
+
+    /**
+      * Convert an object into an associative array
+      *
+      * This function converts an object into an associative array by iterating
+      * over its public properties. Because this function uses the foreach
+      * construct, Iterators are respected. It also works on arrays of objects.
+      *
+      * @return array
+      */
+    function objectToArray( $var )
+    {
         $result = array();
         $references = array();
 
@@ -60,7 +80,7 @@ class Response{
             if (is_object($value) || is_array($value)) {
                 // but prevent cycles
                 if (!in_array($value, $references)) {
-                    $result[$key] = $this->object_to_array($value);
+                    $result[$key] = $this->objectToArray($value);
                     $references[] = $value;
                 }
             } else {
@@ -72,7 +92,7 @@ class Response{
     }
 
     /**
-     * Convert a value to JSON
+     * Convert a value to JSON - improved implementation over stock PHP
      *
      * This function returns a JSON representation of $param. It uses json_encode
      * to accomplish this, but converts objects and arrays containing objects to
@@ -80,9 +100,10 @@ class Response{
      * properties directly but only through an Iterator interface are also encoded
      * correctly.
      */
-    function json_encode2($param) {
+    function jsonEncodeIm( $param )
+    {
         if (is_object($param) || is_array($param)) {
-            $param = $this->object_to_array($param);
+            $param = $this->objectToArray($param);
         }
         return json_encode($param);
     }

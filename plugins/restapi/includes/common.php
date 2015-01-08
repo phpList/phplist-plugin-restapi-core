@@ -6,7 +6,15 @@ defined('PHPLISTINIT') || die;
 
 class Common {
 
-    static function select( $type, $sql, $single=false ){
+    /**
+     * Execute an SQL select query and generate Response object
+     * @param  [type] $type   [description]
+     * @param  [type] $sql    [description]
+     * @param  [type] $single [description]
+     * @return [type]         [description]
+     */
+    static function select( $type, $sql, $single=false )
+    {
         $response = new Response();
         try {
             $db = PDO::getConnection();
@@ -21,26 +29,29 @@ class Common {
         $response->output();
     }
 
-    static function apiUrl( $website ){
-
-        $url = '';
+    /**
+     * Generate a URL for executing API calls
+     * @param [type] $website [description]
+     */
+    static function apiUrl( $website )
+    {
+        $protocol = '';
         if( !empty( $_SERVER["HTTPS"] ) ){
             if($_SERVER["HTTPS"]!=="off")
-                $url = 'https://'; //https
+                $protocol = 'https://'; //https
             else
-                $url = 'http://'; //http
+                $protocol = 'http://'; //http
         }
         else
-            $url = 'http://'; //http
+            $protocol = 'http://'; //http
 
         $api_url = str_replace( 'page=main&pi=restapi_test', 'page=call&pi=restapi', $_SERVER['REQUEST_URI'] );
         $api_url = str_replace( 'page=main&pi=restapi', 'page=call&pi=restapi', $api_url );
 
-        $url = $url . $website . $api_url;
-        $url = rtrim($url,'/');
+        $url = $protocol . $website . $api_url;
+        $trimmedUrl = rtrim( $url, '/' );
 
-        return $url;
-
+        return $trimmedUrl;
     }
 
 }

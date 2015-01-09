@@ -2,14 +2,12 @@
 
 namespace phpListRestapi;
 
-defined('PHPLISTINIT') || die;
-
 class Subscribers {
 
     /**
      * <p>Get all the Subscribers in the system.</p>
 		 * <p><strong>Parameters:</strong><br/>
-		 * [order_by] {string} name of column to sort, default "id".<br/>
+		 * [order_by] {string} name of column to sort, default 'id'.<br/>
 		 * [order] {string} sort order asc or desc, default: asc.<br/>
 		 * [limit] {integer} limit the result, default 100.<br/>
 		 * </p>
@@ -24,7 +22,7 @@ class Subscribers {
 				if ( isset( $_REQUEST['order'] ) && !empty( $_REQUEST['order'] ) ) $order = $_REQUEST['order'];
 				if ( isset( $_REQUEST['limit'] ) && !empty( $_REQUEST['limit'] ) ) $limit = $_REQUEST['limit'];
 
-        Common::select( 'Users', "SELECT * FROM " . $GLOBALS['usertable_prefix'] . "user ORDER BY $order_by $order LIMIT $limit;" );
+        Common::select( 'Users', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user ORDER BY $order_by $order LIMIT $limit;' );
     }
 
     /**
@@ -38,7 +36,7 @@ class Subscribers {
      */
     static function subscriberGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];
-        Common::select( 'User', "SELECT * FROM " . $GLOBALS['usertable_prefix'] . "user WHERE id = $id;", true );
+        Common::select( 'User', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE id = $id;', true );
     }
 
     /**
@@ -50,9 +48,9 @@ class Subscribers {
      * One Subscriber only.
      * </p>
      */
-    static function subscriberGetByEmail( $email = "") {
+    static function subscriberGetByEmail( $email = '') {
         if ( empty( $email ) ) $email = $_REQUEST['email'];
-        Common::select( 'User', "SELECT * FROM " . $GLOBALS['usertable_prefix'] . "user WHERE email = '$email';", true );
+        Common::select( 'User', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE email = '$email';', true );
     }
 
     /**
@@ -71,22 +69,22 @@ class Subscribers {
      */
     static function subscriberAdd(){
 
-        $sql = "INSERT INTO " . $GLOBALS['usertable_prefix'] . "user (email, confirmed, htmlemail, rssfrequency, password, passwordchanged, disabled, entered, uniqid) VALUES (:email, :confirmed, :htmlemail, :rssfrequency, :password, now(), :disabled, now(), :uniqid);";
+        $sql = 'INSERT INTO ' . $GLOBALS['usertable_prefix'] . 'user (email, confirmed, htmlemail, rssfrequency, password, passwordchanged, disabled, entered, uniqid) VALUES (:email, :confirmed, :htmlemail, :rssfrequency, :password, now(), :disabled, now(), :uniqid);';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("email", $_REQUEST['email']);
-            $stmt->bindParam("confirmed", $_REQUEST['confirmed']);
-            $stmt->bindParam("htmlemail", $_REQUEST['htmlemail']);
-            $stmt->bindParam("rssfrequency", $_REQUEST['rssfrequency']);
-            $stmt->bindParam("password", $_REQUEST['password']);
-            $stmt->bindParam("disabled", $_REQUEST['disabled']);
-            
+            $stmt->bindParam('email', $_REQUEST['email']);
+            $stmt->bindParam('confirmed', $_REQUEST['confirmed']);
+            $stmt->bindParam('htmlemail', $_REQUEST['htmlemail']);
+            $stmt->bindParam('rssfrequency', $_REQUEST['rssfrequency']);
+            $stmt->bindParam('password', $_REQUEST['password']);
+            $stmt->bindParam('disabled', $_REQUEST['disabled']);
+
             // fails on strict
-#            $stmt->bindParam("uniqid", md5(uniqid(mt_rand())));
-            
+#            $stmt->bindParam('uniqid', md5(uniqid(mt_rand())));
+
             $uniq = md5(uniqid(mt_rand()));
-            $stmt->bindParam("uniqid", $uniq);
+            $stmt->bindParam('uniqid', $uniq);
             $stmt->execute();
             $id = $db->lastInsertId();
             $db = null;
@@ -114,18 +112,18 @@ class Subscribers {
 		 */
     static function subscriberUpdate(){
 
-        $sql = "UPDATE " . $GLOBALS['usertable_prefix'] . "user SET email=:email, confirmed=:confirmed, htmlemail=:htmlemail, rssfrequency=:rssfrequency, password=:password, passwordchanged=now(), disabled=:disabled WHERE id=:id;";
+        $sql = 'UPDATE ' . $GLOBALS['usertable_prefix'] . 'user SET email=:email, confirmed=:confirmed, htmlemail=:htmlemail, rssfrequency=:rssfrequency, password=:password, passwordchanged=now(), disabled=:disabled WHERE id=:id;';
 
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("id", $_REQUEST['id']);
-            $stmt->bindParam("email", $_REQUEST['email'] );
-            $stmt->bindParam("confirmed", $_REQUEST['confirmed'] );
-            $stmt->bindParam("htmlemail", $_REQUEST['htmlemail'] );
-            $stmt->bindParam("rssfrequency", $_REQUEST['rssfrequency'] );
-            $stmt->bindParam("password", $_REQUEST['password'] );
-            $stmt->bindParam("disabled", $_REQUEST['disabled'] );
+            $stmt->bindParam('id', $_REQUEST['id']);
+            $stmt->bindParam('email', $_REQUEST['email'] );
+            $stmt->bindParam('confirmed', $_REQUEST['confirmed'] );
+            $stmt->bindParam('htmlemail', $_REQUEST['htmlemail'] );
+            $stmt->bindParam('rssfrequency', $_REQUEST['rssfrequency'] );
+            $stmt->bindParam('password', $_REQUEST['password'] );
+            $stmt->bindParam('disabled', $_REQUEST['disabled'] );
             $stmt->execute();
             $db = null;
             Subscribers::SubscriberGet( $_REQUEST['id'] );
@@ -146,11 +144,11 @@ class Subscribers {
 		 */
     static function subscriberDelete(){
 
-        $sql = "DELETE FROM " . $GLOBALS['usertable_prefix'] . "user WHERE id=:id;";
+        $sql = 'DELETE FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE id=:id;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("id", $_REQUEST['id']);
+            $stmt->bindParam('id', $_REQUEST['id']);
             $stmt->execute();
             $db = null;
             Response::outputDeleted( 'Subscriber', $_REQUEST['id'] );

@@ -1,0 +1,14 @@
+{
+    "require-dev": {
+        "symfony/debug": "2.5.*"
+        , "phpunit/phpunit": "4.2.*"
+        , "phpunit/dbunit": "1.3.*"
+        , "phpunit/phpunit-selenium": "*"
+        , "facebook/webdriver": "dev-master"
+    }
+    , "autoload": {
+        "psr-4": {
+            "Rapi\\": "lib/"
+        }
+    }
+}

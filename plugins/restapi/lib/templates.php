@@ -2,8 +2,6 @@
 
 namespace phpListRestapi;
 
-defined('PHPLISTINIT') || die;
-
 /**
  * Class Templates
  * Handling templates at phplist
@@ -11,17 +9,17 @@ defined('PHPLISTINIT') || die;
 class Templates{
 
     static function templatesGet() {
-        Common::select( 'Templates', "SELECT * FROM " . $GLOBALS['table_prefix'] . "template ORDER BY listorder;" );
+        Common::select( 'Templates', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template ORDER BY listorder;' );
     }
 
     static function templateGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];
-        Common::select( 'Template', "SELECT * FROM " . $GLOBALS['table_prefix'] . "template WHERE id=" . $id . ";", true );
+        Common::select( 'Template', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template WHERE id=' . $id . ';', true );
     }
 
     static function templateGetByTitle( $title='' ) {
         if ( empty($title) ) $title = $_REQUEST['title'];
-        Common::select( 'Template', "SELECT * FROM " . $GLOBALS['table_prefix'] . "template WHERE title='" . $title . "';", true );
+        Common::select( 'Template', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template WHERE title='' . $title . '';', true );
     }
 
     /**
@@ -35,12 +33,12 @@ class Templates{
      */
     static function templateAdd(){
 
-        $sql = "INSERT INTO " . $GLOBALS['table_prefix'] . "template (title, template) VALUES (:title, :template);";
+        $sql = 'INSERT INTO ' . $GLOBALS['table_prefix'] . 'template (title, template) VALUES (:title, :template);';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("title", $_REQUEST['title']);
-            $stmt->bindParam("template", $_REQUEST['template']);
+            $stmt->bindParam('title', $_REQUEST['title']);
+            $stmt->bindParam('template', $_REQUEST['template']);
             $stmt->execute();
             $id = $db->lastInsertId();
             $db = null;
@@ -53,13 +51,13 @@ class Templates{
 
     static function templateUpdate(){
 
-        $sql = "UPDATE " . $GLOBALS['table_prefix'] . "template SET title=:title, template=:template WHERE id=:id;";
+        $sql = 'UPDATE ' . $GLOBALS['table_prefix'] . 'template SET title=:title, template=:template WHERE id=:id;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("id", $_REQUEST['id']);
-            $stmt->bindParam("title", $_REQUEST['title']);
-            $stmt->bindParam("template", $_REQUEST['template']);
+            $stmt->bindParam('id', $_REQUEST['id']);
+            $stmt->bindParam('title', $_REQUEST['title']);
+            $stmt->bindParam('template', $_REQUEST['template']);
             $stmt->execute();
             $db = null;
             Templates::templateGet( $_REQUEST['id'] );
@@ -71,11 +69,11 @@ class Templates{
 
     static function templateDelete(){
 
-        $sql = "DELETE FROM " . $GLOBALS['table_prefix'] . "template WHERE id=:id;";
+        $sql = 'DELETE FROM ' . $GLOBALS['table_prefix'] . 'template WHERE id=:id;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("id", $_REQUEST['id']);
+            $stmt->bindParam('id', $_REQUEST['id']);
             $stmt->execute();
             $db = null;
             Response::outputDeleted( 'Template', $_REQUEST['id'] );

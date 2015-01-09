@@ -1,8 +1,6 @@
 <?php
 
-namespace phpListRestapi;
-
-defined('PHPLISTINIT') || die;
+namespace Rapi;
 
 /**
  * Common response as success and error

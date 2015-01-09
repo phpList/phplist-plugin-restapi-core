@@ -2,11 +2,12 @@
 
 namespace phpListRestapi;
 
+// NOTE: All include classes used to have this init check, now it's only here
 defined('PHPLISTINIT') || die;
 
 include 'includes/common.php';
 
-$plugin = $GLOBALS["plugins"][$_GET["pi"]];
+$plugin = $GLOBALS['plugins'][$_GET['pi']];
 
 $url = Common::apiUrl( $website );
 
@@ -15,12 +16,12 @@ $url = Common::apiUrl( $website );
 <h1>REST API</h1>
 
     <h2>Version 0.2.5</h2>
-    <p>The plugin provides a REST API to phpList.<br/> Development by <a href="http://samtuke.com">Sam Tuke, <a href="http://phplist.com">Michiel Dethmers</a>. Original development by <a href="https://twitter.com/ekandreas">Andreas Ek</a> of Flowcom AB.</p>
+    <p>The plugin provides a REST API to phpList.<br/> Development by <a href='http://samtuke.com'>Sam Tuke, <a href='http://phplist.com'>Michiel Dethmers</a>. Original development by <a href='https://twitter.com/ekandreas'>Andreas Ek</a> of Flowcom AB.</p>
 
     <h2>Commands</h2>
     <p>
         To discover all commands to this API just make a GET request or click here:<br/>
-        <a href="<?php echo $url; ?>">phpList API Command Reference list</a><br/>
+        <a href='<?php echo $url; ?>'>phpList API Command Reference list</a><br/>
         The documentation is generated in realtime.
     </p>
 
@@ -29,10 +30,10 @@ $url = Common::apiUrl( $website );
         Autentication required as admin in phpList.<br/>
         All requests to the RESTAPI is made by method POST.<br/>
         RESTAPI-Url to this installation:<br/>
-        <a href="<?php echo $url; ?>"><?php echo $url; ?></a>
+        <a href='<?php echo $url; ?>'><?php echo $url; ?></a>
     </p>
     <p>
-        First login to phpList with method POST and body parameters "login" and "password".<br/>
+        First login to phpList with method POST and body parameters 'login' and 'password'.<br/>
     </p>
 
     <h2>Client</h2>
@@ -49,5 +50,5 @@ $url = Common::apiUrl( $website );
 
     <h2>Issues</h2>
     <p>
-        Report issues to the central phpList <a href="https://mantis.phplist.com/">bug tracker</a>.
+        Report issues to the central phpList <a href='https://mantis.phplist.com/'>bug tracker</a>.
     </p>

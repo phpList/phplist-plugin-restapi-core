@@ -8,7 +8,7 @@ defined('PHPLISTINIT') || die;
 ob_end_clean();
 
 //Getting phpList globals for this plugin
-$plugin = $GLOBALS["plugins"][$_GET["pi"]];
+$plugin = $GLOBALS['plugins'][$_GET['pi']];
 
 include 'includes/response.php';
 include 'includes/pdo.php';
@@ -33,7 +33,7 @@ if ( empty( $plugin->coderoot ) ){
 }
 
 //If other than POST then assume documentation report
-if ( strcmp( $_SERVER['REQUEST_METHOD'], "POST")  ) {
+if ( strcmp( $_SERVER['REQUEST_METHOD'], 'POST')  ) {
     $doc = new \phpListRestapiDoc();
     $doc->addClass( 'Actions' );
     $doc->addClass( 'Lists' );

@@ -2,8 +2,6 @@
 
 namespace phpListRestapi;
 
-defined('PHPLISTINIT') || die;
-
 class Actions {
 
     /**

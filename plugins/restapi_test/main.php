@@ -9,7 +9,7 @@ namespace phpListRestapi;
 
 include 'phplist_restapi_helper.php';
 
-$plugin = $GLOBALS["plugins"][$_GET["pi"]];
+$plugin = $GLOBALS['plugins'][$_GET['pi']];
 $url = apiUrl( $website );
 
 $login = getConfig('restapi_test_login');
@@ -18,10 +18,10 @@ $password = getConfig('restapi_test_password');
 if (empty($login)) {
   print Error('Please configure the login details in the settings page<br/>Parameters: <strong>restapi_test_login</strong> and <strong>restapi_test_password</strong> for admin login.');
 	?>
-		<form method="POST">
-			<input type="text" placeholder="restapi_test_login" name="restapi_test_login" /><br/>
-			<input type="password" placeholder="restapi_test_password" name="restapi_test_password" /><br/>
-			<input type="submit" value="Save" />
+		<form method='POST'>
+			<input type='text' placeholder='restapi_test_login' name='restapi_test_login' /><br/>
+			<input type='password' placeholder='restapi_test_password' name='restapi_test_password' /><br/>
+			<input type='submit' value='Save' />
 		</form>
 	<?php
 
@@ -43,7 +43,7 @@ $step = 1;
     <?php
 
     //Get the loginname and password!
-    $id = $_SESSION["logindetails"]["id"];
+    $id = $_SESSION['logindetails']['id'];
 
     $api = new Helper( $url );
     $result = $api->login( $login, $password );
@@ -65,7 +65,7 @@ $step = 1;
     }
 
     //Present the lists fetched
-    echo "Number of lists is " . count($result->data);
+    echo 'Number of lists is ' . count($result->data);
     foreach($result->data as $key => $list){
         if ( $key == 0 ) echo ' ( ';
         if ( $key > 0 && $key < count( $result->data ) ) echo ' , ';
@@ -112,7 +112,7 @@ $step = 1;
     }
 
     //Present the lists fetched
-    echo "Total number of subscribers: " . count($result->data);
+    echo 'Total number of subscribers: ' . count($result->data);
 
     ?>
 
@@ -121,7 +121,7 @@ $step = 1;
     
     var_dump($admin->email);
 
-		$admin_address = getConfig("admin_address");
+		$admin_address = getConfig('admin_address');
 
     $result = $api->subscriberGetByEmail( $admin_address );
     if ($result->status != 'success'){
@@ -139,10 +139,10 @@ $step = 1;
             return;
         }
         $subscriber_id = $result->data->id;
-        echo "Admin Email (" . $admin_address . ") is in subscribers now with id = " . $subscriber_id . '<br/>';
+        echo 'Admin Email (' . $admin_address . ') is in subscribers now with id = ' . $subscriber_id . '<br/>';
     }
 
-    echo "Added a new subscriber with the Admin Email Address, id = " . $subscriber_id;
+    echo 'Added a new subscriber with the Admin Email Address, id = ' . $subscriber_id;
 
     ?>
 
@@ -155,7 +155,7 @@ $step = 1;
         return;
     }
 
-    echo '"The Admin as a subscriber" password has changed!';
+    echo ''The Admin as a subscriber' password has changed!';
 
     ?>
 
@@ -182,7 +182,7 @@ $step = 1;
 		}
 
 		//Present the lists fetched
-		echo "Total number of subscribers: " . count($result->data);
+		echo 'Total number of subscribers: ' . count($result->data);
 
 		?>
 
@@ -384,10 +384,10 @@ $step = 1;
 
         $url = '';
         
-        if( !empty( $_SERVER["HTTPS"] ) ){
+        if( !empty( $_SERVER['HTTPS'] ) ){
             
             // Check which protocol to use
-            if($_SERVER["HTTPS"]!=="off") {
+            if($_SERVER['HTTPS']!=='off') {
                 $url = 'https://'; //https
             } else {
                 $url = 'http://'; //http

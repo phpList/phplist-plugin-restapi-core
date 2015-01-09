@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Class Test_
- */
-class TestRestapi extends \PHPUnit_Framework_TestCase 
+  * Class for high level testing of API calls
+  */
+class TestRestapi extends \PHPUnit_Framework_TestCase
 {
 
     public $userId;
@@ -12,7 +12,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
     public $url;
     public $tmpPath;
 
-    public function setUp() 
+    public function setUp()
     {
         // Set values from constants stored in phpunit.xml
         $this->loginName = API_LOGIN_USERNAME;
@@ -23,18 +23,18 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
     public function tearDown() {
     }
-    
+
     /**
      * Make a call to the API using cURL
      * @return string result of the CURL execution
      */
-    private function callApi( $command, $post_params, $decode = true ) 
+    private function callApi( $command, $post_params, $decode = true )
     {
         $post_params['cmd'] = $command;
 
         // Serialise and encode query
         $post_params = http_build_query( $post_params );
-        
+
         // Prepare cURL
         $c = curl_init();
         curl_setopt( $c, CURLOPT_URL,            $this->url );
@@ -46,12 +46,12 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
         curl_setopt( $c, CURLOPT_COOKIEFILE,     $this->tmpPath.'/phpList_RESTAPI_Helper_cookiejar.txt');
         curl_setopt( $c, CURLOPT_COOKIEJAR,      $this->tmpPath.'/phpList_RESTAPI_Helper_cookiejar.txt');
         curl_setopt( $c, CURLOPT_HTTPHEADER,     array( 'Connection: Keep-Alive', 'Keep-Alive: 60' ) );
-        
+
         // Execute the call
         $result = curl_exec( $c );
 
         // Check if decoding of result is required
-        if ( $decode === true ) 
+        if ( $decode === true )
         {
             $result = json_decode( $result );
         }
@@ -63,7 +63,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
      * Use a real login to test login api call
      * @return bool true if user exists and login successful
      */
-    public function testLogin() 
+    public function testLogin()
     {
         // Set the username and pwd to login with
         $post_params = array(
@@ -73,17 +73,17 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Execute the login with the credentials as params
         $result = $this->callApi( 'login', $post_params );
-        
+
         // Check if the login was successful
         $this->assertEquals( 'success', $result->status );
-        
+
     }
-    
+
     /**
      * Test for simple success of fetching of all lists
      * @note Only the 'status' property is tested
      */
-    public function testListsGet() 
+    public function testListsGet()
     {
         // Create empty params array
         $post_params = array();
@@ -94,12 +94,12 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
         // Check if the lists were fetched successfully
         $this->assertEquals( 'success', $result->status );
     }
-    
+
     /**
      * Test creation of a new list
      * @note Created list is deleted in later test, barring errors
      */
-    public function testListAdd() 
+    public function testListAdd()
     {
         // Create minimal params for api call
         $post_params = array(
@@ -116,10 +116,10 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Check if the list was created successfully
         $this->assertEquals( 'success', $result->status );
-        
+
         // Check that the list has a numeric ID
         $this->assertTrue( is_numeric( $result->data->id ) );
-        
+
         // Check the new list data is what we requested
         $this->assertEquals( 'testList', $result->data->name );
         $this->assertEquals( 'listDescription', $result->data->description );
@@ -128,18 +128,18 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
         $this->assertEquals( '', $result->data->rssfeed );
         #$this->assertEquals( '2014-06-15 15:27:22', $result->data->modified );
         $this->assertEquals( '1', $result->data->active );
-        
+
         $listId = $result->data->id;
-        
+
         // Pass on the new list ID so other tests can reuse it
         return $listId;
     }
-    
+
     /**
      * Test updating an existing list
      * @depends testListAdd
      */
-    public function testListUpdate( $listId ) 
+    public function testListUpdate( $listId )
     {
         // Create minimal params for api call
         $post_params = array(
@@ -157,10 +157,10 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Check if the list was updated successfully
         $this->assertEquals( 'success', $result->status );
-        
+
         // Check that the list has a numeric ID
         $this->assertTrue( is_numeric( $result->data->id ) );
-        
+
         // Check the new list data is what we requested
         $this->assertEquals( 'updatedTestList', $result->data->name );
         $this->assertEquals( 'updatedListDescription', $result->data->description );
@@ -170,19 +170,19 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
         #$this->assertEquals( '2014-06-15 15:27:22', $result->data->modified );
         $this->assertEquals( '0', $result->data->active );
     }
-    
+
     /**
      * Test deleting an existing list
      * @note Simply trusts the status returned from the API. Deeper testing required
      * @depends testListAdd
      */
-    public function testListDelete( $listId ) 
+    public function testListDelete( $listId )
     {
         // Create minimal params for api call
         $post_params = array(
             'id' => $listId
         );
-        
+
         // Execute the api call
         $result = $this->callAPI( 'listDelete', $post_params);
 
@@ -190,13 +190,13 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
         $this->assertEquals( 'success', $result->status );
         $this->assertEquals( 'Item with ' . $listId . ' is successfully deleted!', $result->data );
     }
-    
+
     /**
      * Test adding a new subscriber
      * @todo add another test to delete the user later on
      * @depends testListAdd
      */
-    public function testSubscriberAdd( $listId ) 
+    public function testSubscriberAdd( $listId )
     {
         // Set the user details as parameters
         $post_params = array(
@@ -210,12 +210,12 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Execute the api call
         $result = $this->callAPI( 'subscriberAdd', $post_params);
-        
+
         // Test if the user was created successfully
         $this->assertEquals( 'success', $result->status );
-        
+
         $subscriberId = $result->data->id;
-        
+
         // Pass on the newly created userid to other tests
         return $subscriberId;
     }
@@ -226,7 +226,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
      * @depends testListAdd
      * @depends testSubscriberAdd
      */
-    public function testListSubscriberAdd( $listId, $subscriberId ) 
+    public function testListSubscriberAdd( $listId, $subscriberId )
     {
         // Set list and subscriber vars
         $post_params = array(
@@ -236,7 +236,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Execute the api call
         $result = $this->callAPI( 'listSubscriberAdd', $post_params);
-        
+
         // Test if the user was added to the list successfully
         $this->assertEquals( 'success', $result->status );
     }

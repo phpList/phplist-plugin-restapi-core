@@ -5,23 +5,23 @@
  */
 class restapi_test extends phplistPlugin {
 
-  public $name = "RESTAPI Test";
+  public $name = 'RESTAPI Test';
   public $description = 'Functionality tests for the REST API plugin for phpList';
   public $topMenuLinks = array(
     'main' => array('category' => 'develop'),
   ); 
   public $settings = array(
-    "restapi_test_login" => array (
+    'restapi_test_login' => array (
       'value' => 'admin',
       'description' => 'Login name for REST API testing',
-      'type' => "text",
+      'type' => 'text',
       'allowempty' => 0,
       'category'=> 'develop',
     ),
-    "restapi_test_password" => array (
+    'restapi_test_password' => array (
       'value' => 'phplist',
       'description' => 'Login password for REST API testing',
-      'type' => "text",
+      'type' => 'text',
       'category'=> 'develop',
     ),
   );
@@ -33,7 +33,7 @@ class restapi_test extends phplistPlugin {
 
   function adminmenu() {
     return array(
-      "main" => "Test RESTAPI"
+      'main' => 'Test RESTAPI'
     );
   }
 

@@ -1,8 +1,6 @@
 <?php
 namespace phpListRestapi;
 
-defined('PHPLISTINIT') || die;
-
 /**
  * Class phpList_RESTAPI_Lists
  * Getting lists, adding and removing its users and messages
@@ -18,7 +16,7 @@ class Lists {
      * </p>
      */
     static function listsGet() {
-        Common::select( 'Lists', "SELECT * FROM " . $GLOBALS['table_prefix'] . "list ORDER BY listorder;" );
+        Common::select( 'Lists', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'list ORDER BY listorder;' );
     }
 
     /**
@@ -31,7 +29,7 @@ class Lists {
      */
     static function listGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];
-        Common::select( 'List', "SELECT * FROM " . $GLOBALS['table_prefix'] . "list WHERE id = $id;", true );
+        Common::select( 'List', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'list WHERE id = $id;', true );
     }
 
     /**
@@ -49,16 +47,16 @@ class Lists {
      */
     static function listAdd(){
 
-        $sql = "INSERT INTO " . $GLOBALS['table_prefix'] . "list (name, description, listorder, prefix, rssfeed, active) VALUES (:name, :description, :listorder, :prefix, :rssfeed, :active);";
+        $sql = 'INSERT INTO ' . $GLOBALS['table_prefix'] . 'list (name, description, listorder, prefix, rssfeed, active) VALUES (:name, :description, :listorder, :prefix, :rssfeed, :active);';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("name", $_REQUEST['name']);
-            $stmt->bindParam("description", $_REQUEST['description']);
-            $stmt->bindParam("listorder", $_REQUEST['listorder']);
-            $stmt->bindParam("prefix", $_REQUEST['prefix']);
-            $stmt->bindParam("rssfeed", $_REQUEST['rssfeed']);
-            $stmt->bindParam("active", $_REQUEST['active']);
+            $stmt->bindParam('name', $_REQUEST['name']);
+            $stmt->bindParam('description', $_REQUEST['description']);
+            $stmt->bindParam('listorder', $_REQUEST['listorder']);
+            $stmt->bindParam('prefix', $_REQUEST['prefix']);
+            $stmt->bindParam('rssfeed', $_REQUEST['rssfeed']);
+            $stmt->bindParam('active', $_REQUEST['active']);
             $stmt->execute();
             $id = $db->lastInsertId();
             $db = null;
@@ -85,18 +83,18 @@ class Lists {
      */
     static function listUpdate(){
 
-        $sql = "UPDATE " . $GLOBALS['table_prefix'] . "list SET name=:name, description=:description, listorder=:listorder, prefix=:prefix, rssfeed=:rssfeed, active=:active WHERE id=:id;";
+        $sql = 'UPDATE ' . $GLOBALS['table_prefix'] . 'list SET name=:name, description=:description, listorder=:listorder, prefix=:prefix, rssfeed=:rssfeed, active=:active WHERE id=:id;';
 
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("id", $_REQUEST['id']);
-            $stmt->bindParam("name", $_REQUEST['name'] );
-            $stmt->bindParam("description", $_REQUEST['description'] );
-            $stmt->bindParam("listorder", $_REQUEST['listorder'] );
-            $stmt->bindParam("prefix", $_REQUEST['prefix'] );
-            $stmt->bindParam("rssfeed", $_REQUEST['rssfeed'] );
-            $stmt->bindParam("active", $_REQUEST['active'] );
+            $stmt->bindParam('id', $_REQUEST['id']);
+            $stmt->bindParam('name', $_REQUEST['name'] );
+            $stmt->bindParam('description', $_REQUEST['description'] );
+            $stmt->bindParam('listorder', $_REQUEST['listorder'] );
+            $stmt->bindParam('prefix', $_REQUEST['prefix'] );
+            $stmt->bindParam('rssfeed', $_REQUEST['rssfeed'] );
+            $stmt->bindParam('active', $_REQUEST['active'] );
             $stmt->execute();
             $db = null;
             Lists::listGet( $_REQUEST['id'] );
@@ -116,11 +114,11 @@ class Lists {
      */
     static function listDelete(){
 
-        $sql = "DELETE FROM " . $GLOBALS['table_prefix'] . "list WHERE id=:id;";
+        $sql = 'DELETE FROM ' . $GLOBALS['table_prefix'] . 'list WHERE id=:id;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("id", $_REQUEST['id']);
+            $stmt->bindParam('id', $_REQUEST['id']);
             $stmt->execute();
             $db = null;
             Response::outputDeleted( 'List', $_REQUEST['id'] );
@@ -141,7 +139,7 @@ class Lists {
     static function listsSubscriber ( $subscriber_id=0 ) {
         $response = new Response();
         if ( $subscriber_id==0 ) $subscriber_id = $_REQUEST['subscriber_id'];
-        $sql = "SELECT * FROM " . $GLOBALS['table_prefix'] . "list WHERE id IN (SELECT listid FROM " . $GLOBALS['table_prefix'] . "listuser WHERE userid=" . $subscriber_id . ") ORDER BY listorder;";
+        $sql = 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'list WHERE id IN (SELECT listid FROM ' . $GLOBALS['table_prefix'] . 'listuser WHERE userid=' . $subscriber_id . ') ORDER BY listorder;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->query($sql);
@@ -168,12 +166,12 @@ class Lists {
     static function listSubscriberAdd( $list_id=0, $subscriber_id=0 ){
         if ( $list_id==0 ) $list_id = $_REQUEST['list_id'];
         if ( $subscriber_id==0 ) $subscriber_id = $_REQUEST['subscriber_id'];
-        $sql = "INSERT INTO " . $GLOBALS['table_prefix'] . "listuser (userid, listid, entered) VALUES (:subscriber_id, :list_id, now());";
+        $sql = 'INSERT INTO ' . $GLOBALS['table_prefix'] . 'listuser (userid, listid, entered) VALUES (:subscriber_id, :list_id, now());';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("subscriber_id", $subscriber_id );
-            $stmt->bindParam("list_id", $list_id );
+            $stmt->bindParam('subscriber_id', $subscriber_id );
+            $stmt->bindParam('list_id', $list_id );
             $stmt->execute();
             $db = null;
             Lists::listsSubscriber( $subscriber_id );
@@ -195,12 +193,12 @@ class Lists {
     static function listSubscriberDelete( $list_id=0, $subscriber_id=0 ){
         if ( $list_id==0 ) $list_id = $_REQUEST['list_id'];
         if ( $subscriber_id==0 ) $subscriber_id = $_REQUEST['subscriber_id'];
-        $sql = "DELETE FROM " . $GLOBALS['table_prefix'] . "listuser WHERE listid=:list_id AND userid=:subscriber_id;";
+        $sql = 'DELETE FROM ' . $GLOBALS['table_prefix'] . 'listuser WHERE listid=:list_id AND userid=:subscriber_id;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("subscriber_id", $subscriber_id );
-            $stmt->bindParam("list_id", $list_id );
+            $stmt->bindParam('subscriber_id', $subscriber_id );
+            $stmt->bindParam('list_id', $list_id );
             $stmt->execute();
             $db = null;
             Response::outputMessage( 'Subscriber ' . $subscriber_id . ' is unassigned from list ' . $list_id );
@@ -222,12 +220,12 @@ class Lists {
     static function listMessageAdd( $list_id=0, $message_id=0 ){
         if ( $list_id==0 ) $list_id = $_REQUEST['list_id'];
         if ( $message_id==0 ) $message_id = $_REQUEST['message_id'];
-        $sql = "INSERT INTO " . $GLOBALS['table_prefix'] . "listmessage (messageid, listid, entered) VALUES (:message_id, :list_id, now());";
+        $sql = 'INSERT INTO ' . $GLOBALS['table_prefix'] . 'listmessage (messageid, listid, entered) VALUES (:message_id, :list_id, now());';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("message_id", $message_id );
-            $stmt->bindParam("list_id", $list_id );
+            $stmt->bindParam('message_id', $message_id );
+            $stmt->bindParam('list_id', $list_id );
             $stmt->execute();
             $db = null;
             Lists::listGet( $list_id );
@@ -250,12 +248,12 @@ class Lists {
     static function listMessageDelete( $list_id=0, $message_id=0 ){
         if ( $list_id==0 ) $list_id = $_REQUEST['list_id'];
         if ( $message_id==0 ) $message_id = $_REQUEST['message_id'];
-        $sql = "DELETE FROM " . $GLOBALS['table_prefix'] . "listmessage WHERE listid=:list_id AND messageid=:message_id;";
+        $sql = 'DELETE FROM ' . $GLOBALS['table_prefix'] . 'listmessage WHERE listid=:list_id AND messageid=:message_id;';
         try {
             $db = PDO::getConnection();
             $stmt = $db->prepare($sql);
-            $stmt->bindParam("message_id", $message_id );
-            $stmt->bindParam("list_id", $list_id );
+            $stmt->bindParam('message_id', $message_id );
+            $stmt->bindParam('list_id', $list_id );
             $stmt->execute();
             $db = null;
             Response::outputMessage( 'Message ' . $message_id . ' is unassigned from list ' . $list_id );

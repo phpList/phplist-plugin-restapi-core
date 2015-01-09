@@ -1,25 +1,30 @@
 <?php
 
-namespace phpListRestapi;
+namespace Rapi;
 
 /**
  * Class Templates
  * Handling templates at phplist
  */
-class Templates{
+class Templates {
+
+    public function __construct( Common $common )
+    {
+        $this->common = $common;
+    }
 
     static function templatesGet() {
-        Common::select( 'Templates', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template ORDER BY listorder;' );
+        $this->common->select( 'Templates', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template ORDER BY listorder;' );
     }
 
     static function templateGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];
-        Common::select( 'Template', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template WHERE id=' . $id . ';', true );
+        $this->common->select( 'Template', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template WHERE id=' . $id . ';', true );
     }
 
     static function templateGetByTitle( $title='' ) {
         if ( empty($title) ) $title = $_REQUEST['title'];
-        Common::select( 'Template', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template WHERE title='' . $title . '';', true );
+        $this->common->select( 'Template', 'SELECT * FROM ' . $GLOBALS['table_prefix'] . 'template WHERE title="" . $title . "";', true );
     }
 
     /**

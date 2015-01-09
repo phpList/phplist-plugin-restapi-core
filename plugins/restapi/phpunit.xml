@@ -8,6 +8,11 @@
         <const name='API_URL_BASE_PATH' value='http://local.pl/lists/admin/?page=call&amp;pi=restapi'/>
         <const name='API_LOGIN_USERNAME' value='admin'/>
         <const name='API_LOGIN_PASSWORD' value='phplist'/>
+        <!-- Absolute path to system's temporary directory -->
         <const name='TMP_PATH' value='/tmp'/>
+        <!-- Name of the folder housing phpList -->
+        <const name='PAGE_ROOT' value='/lists'/>
+        <!-- Name of the admin directory -->
+        <const name='ADMIN_PATH' value='/admin'/>
     </php>
 </phpunit>

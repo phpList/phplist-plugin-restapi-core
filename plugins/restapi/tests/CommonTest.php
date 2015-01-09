@@ -26,9 +26,10 @@ class TestCommon extends \PHPUnit_Framework_TestCase
 
     public function testApiUrl()
     {
-        var_dump($GLOBALS);
-        $apiUrl = $this->common->apiUrl( $this->domain );
-        var_dump($apiUrl);
+        // Get an API call URL
+        $apiUrl = $this->common->apiUrl( $this->domain, PAGE_ROOT, ADMIN_PATH );
+        // TODO: Add more detailed tests here checking path is valid
+        $this->assertNotEmpty( $apiUrl );
     }
 }
 

@@ -1,5 +1,9 @@
 <?php
 
+require '/var/www/pl/configdev.php';
+
+echo "\$pageroot = $pageroot";
+
 // Include Symfony autoloader
 require_once( 'vendor/autoload.php' );
 
@@ -9,6 +13,7 @@ $GLOBALS['database_host'] = 'localhost';
 $GLOBALS['database_user'] = 'pl';
 $GLOBALS['database_password'] = 'pl';
 $GLOBALS['database_name'] = 'pl';
+
 
 // Include config file as it includes necessary config vars
 if (

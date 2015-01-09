@@ -39,7 +39,7 @@ class Common {
      * Generate a URL for executing API calls
      * @param [type] $website [description]
      */
-    static function apiUrl( $website )
+    static function apiUrl( $website, $pageRoot, $adminDir )
     {
         $protocol = '';
         // If server is using SSL rewrite URI accordingly
@@ -53,11 +53,10 @@ class Common {
             $protocol = 'http://'; //http
         }
 
-        // Rewrite current page URL to API call URL; check for test URIs also
-        $rewrittenReqUri1 = str_replace( 'page=main&pi=restapi_test', 'page=call&pi=restapi', $_SERVER['REQUEST_URI'] );
-        $rewrittenReqUri2 = str_replace( 'page=main&pi=restapi', 'page=call&pi=restapi', $rewrittenReqUri1 );
+        // Generate the path plus get vars
+        $path = $pageRoot . $adminDir . '?page=call&pi=restapi';
 
-        $url = $protocol . $website . $rewrittenReqUri2;
+        $url = $protocol . $website . $path;
         $trimmedUrl = rtrim( $url, '/' );
 
         return $trimmedUrl;

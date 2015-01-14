@@ -53,9 +53,9 @@ class Response{
      */
     function output()
     {
-        header('Content-Type: application/json');
+        header( 'Content-Type: application/json' );
         echo $this->jsonEncodeIm( $this->result );
-        die(0);
+        die( 0 );
     }
 
     /**
@@ -73,17 +73,17 @@ class Response{
         $references = array();
 
         // loop over elements/properties
-        foreach ($var as $key => $value) {
+        foreach ( $var as $key => $value ) {
             // recursively convert objects
-            if (is_object($value) || is_array($value)) {
+            if (is_object( $value) || is_array( $value ) ) {
                 // but prevent cycles
-                if (!in_array($value, $references)) {
-                    $result[$key] = $this->objectToArray($value);
+                if (!in_array( $value, $references ) ) {
+                    $result[$key] = $this->objectToArray( $value );
                     $references[] = $value;
                 }
             } else {
                 // simple values are untouched
-                $result[$key] = utf8_encode($value);
+                $result[$key] = utf8_encode( $value );
             }
         }
         return $result;
@@ -100,13 +100,13 @@ class Response{
      */
     function jsonEncodeIm( $param )
     {
-        if (is_object($param) || is_array($param)) {
-            $param = $this->objectToArray($param);
+        if ( is_object( $param ) || is_array( $param ) ) {
+            $param = $this->objectToArray( $param );
         }
-        return json_encode($param);
+        return json_encode( $param );
     }
 
-    static function outputError($e){
+    static function outputError( $e ){
         $response = new Response();
         $response->setError( $e->getCode(), $e->getMessage() );
         $response->output();

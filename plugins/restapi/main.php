@@ -1,6 +1,6 @@
 <?php
 
-namespace phpListRestapi;
+namespace Rapi;
 
 // NOTE: All include classes used to have this init check, now it's only here
 defined('PHPLISTINIT') || die;
@@ -9,7 +9,10 @@ include 'includes/common.php';
 
 $plugin = $GLOBALS['plugins'][$_GET['pi']];
 
-$url = Common::apiUrl( $website );
+$common = new Common();
+
+// TODO: Replace hardcoded admin url with one set centrally
+$url = $Common->apiUrl( $website, $pageroot, '/admin;' );
 
 ?>
 

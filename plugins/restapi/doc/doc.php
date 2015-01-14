@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class for generating documentation from inline comments
+ */
 class phpListRestapiDoc {
 
     private $classes;
@@ -25,20 +28,20 @@ class phpListRestapiDoc {
             foreach( $methods as $method ){
 
                 echo '<section>';
-                echo '<div class='page-header'>';
+                echo '<div class="page-header">';
                 echo '<h2>' . $method->name . '</h2>';
                 echo '</div>';
-                echo '<div class='row'>';
-                echo '<div class='span12'>';
+                echo '<div class="row">';
+                echo '<div class="span12">';
 
                 $comment = $method->getDocComment();
 
                 $comment = str_replace( '/**', '', $comment );
                 $comment = str_replace( '*/', '', $comment );
-                $comment = str_replace( '[*', '<span class='label label-warning'>', $comment );
-                $comment = str_replace( '[', '<span class='label label-success'>', $comment );
+                $comment = str_replace( '[*', '<span class="label label-warning">', $comment );
+                $comment = str_replace( '[', '<span class="label label-success">', $comment );
                 $comment = str_replace( ']', '</span>', $comment );
-                $comment = str_replace( '{', '<span class='badge'>', $comment );
+                $comment = str_replace( '{', '<span class="badge">', $comment );
                 $comment = str_replace( '}', '</span>', $comment );
                 $comment = str_replace( '*', '', $comment );
                 //$comment = str_replace( '<br><br>', '', $comment );

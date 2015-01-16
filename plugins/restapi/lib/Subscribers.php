@@ -1,6 +1,6 @@
 <?php
 
-namespace phpListRestapi;
+namespace Rapi;
 
 class Subscribers {
 

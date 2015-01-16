@@ -1,30 +1,36 @@
 <?php
 
-namespace phpListRestapi;
+namespace Rapi;
 
+/**
+ * Class for account related commands
+ */
 class Actions {
 
-    /**
-     * <p>Function to call for login.<p>
-     * <p><strong>Parameters:</strong><br/>
-     * [*login] {string} loginname as an admin to phpList<br/>
-     * [*password] {string} the password
-     * </p>
-     */
-    static function login() {
-        Response::outputMessage( 'Welcome!' );
+    public function __construct( Response $response )
+    {
+        $this->response = $response;
     }
 
     /**
-     * <p>Processes the Message Queue in phpList.<br/>
-     * Perhaps this is done via CRON or manually through the admin interface?</p>
-     * <p><strong>Parameters:</strong><br/>
-     * [*login] {string} loginname as an admin to phpList<br/>
+     * Function to call for login.
+     * @todo: Finish implementing this method
+     * [*login] {string} loginname as an admin to phpList
      * [*password] {string} the password
-     *
      */
-    static function processQueue() {
-        Response::outputMessage( 'Not implemented' );
+    public function login()
+    {
+        $this->response->outputMessage( 'Not implemented' );
     }
 
+    /**
+     * Processes the Message Queue in phpList.
+     * @todo: Finish implementing this method
+     * @note: Perhaps this is done via CRON or manually through the admin interface?
+     * [*login] {string} loginname as an admin to phpList
+     */
+    public function processQueue()
+    {
+        $this->response->outputMessage( 'Not implemented' );
+    }
 }

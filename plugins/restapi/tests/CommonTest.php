@@ -30,41 +30,14 @@ class TestCommon extends \PHPUnit_Framework_TestCase
         $apiUrl = $this->common->apiUrl( $this->domain, PAGE_ROOT, ADMIN_PATH );
         // TODO: Add more detailed tests here checking path is valid
         $this->assertNotEmpty( $apiUrl );
+        // Check protocol is set
+        $this->assertEquals( 'http://', substr( $apiUrl, 0, 7 ) );
+        $domainLen = strlen( $this->domain );
+        // Check domain is correct within URL
+        $this->assertEquals( $this->domain, substr( $apiUrl, 7, $domainLen ) );
+        // Check page root is correct within URL
+        $this->assertEquals( PAGE_ROOT, substr( $apiUrl, 7 + $domainLen, strlen( PAGE_ROOT ) ) );
+        // Check admin path is correct within URL
+        $this->assertEquals( ADMIN_PATH, substr( $apiUrl, 7 + $domainLen + strlen( PAGE_ROOT ), strlen( ADMIN_PATH ) ) );
     }
 }
-
-
-// .Rapi\Response Object
-// (
-// [result:Rapi\Response:private] => Array
-// (
-// [status] => success
-// [type] => Users
-// [data] => Array
-// (
-// [0] => stdClass Object
-// (
-// [id] => 1
-// [email] => test-4482729003@sendspamhere.com
-// [confirmed] => 0
-// [blacklisted] => 0
-// [optedin] => 0
-// [bouncecount] => 0
-// [entered] => 2012-08-26 15:04:03
-// [modified] => 2013-01-16 15:34:26
-// [uniqid] => 0e69bf630e1d9312d8b6433db7e741eb
-// [htmlemail] => 1
-// [subscribepage] =>
-// [rssfrequency] =>
-// [password] => 4f5f282e7e716424bcd5b5a10a82d7acabc87a0ae07ee88d9fd8ae69bbfbbfc9
-// [passwordchanged] => 2012-08-26
-// [disabled] => 0
-// [extradata] =>
-// [foreignkey] =>
-// )
-//
-// )
-//
-// )
-//
-// )

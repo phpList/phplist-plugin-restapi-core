@@ -1,5 +1,5 @@
 <?php
-namespace phpListRestapi;
+namespace Rapi;
 
 defined('PHPLISTINIT') || die;
 

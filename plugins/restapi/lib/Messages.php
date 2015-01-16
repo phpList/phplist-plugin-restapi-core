@@ -1,6 +1,6 @@
 <?php
 
-namespace phpListRestapi;
+namespace Rapi;
 
 defined('PHPLISTINIT') || die;
 
@@ -118,7 +118,7 @@ class Messages{
         }
 
     }
-	
+
 	static function formtokenGet(){
 		$key = md5(time().mt_rand(0,10000));
 		Sql_Query(sprintf('insert into %s (adminid,value,entered,expires) values(%d,"%s",%d,date_add(now(),interval 1 hour))',

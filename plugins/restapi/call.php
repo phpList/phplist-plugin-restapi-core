@@ -16,6 +16,13 @@ if (function_exists('api_request_log'))
     api_request_log();
 }
 
+$response = new Response();
+$common = new Common();
+$actions = new Actions( $response );
+$subscribers = new Subscribers();
+$templates = new Templates();
+$messages = new Messages();
+
 // Check if this is called outside phpList auth, this should never occur!
 if ( empty( $plugin->coderoot ) )
 {

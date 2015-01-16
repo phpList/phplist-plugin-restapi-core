@@ -2,24 +2,14 @@
 
 namespace phpListRestapi;
 
+// Check that the plugin has been initiatlised
 defined('PHPLISTINIT') || die;
 
-//No HTML-output, please!
+// No HTML-output, please!
 ob_end_clean();
 
-//Getting phpList globals for this plugin
+// Getting phpList globals for this plugin
 $plugin = $GLOBALS['plugins'][$_GET['pi']];
-
-include 'includes/response.php';
-include 'includes/pdo.php';
-
-include 'includes/common.php';
-
-include 'includes/actions.php';
-include 'includes/lists.php';
-include 'includes/subscribers.php';
-include 'includes/templates.php';
-include 'includes/messages.php';
 
 if (function_exists('api_request_log'))
 {

@@ -20,24 +20,24 @@ class Messages{
     }
 
     /**
-     * <p>Adds a new message/campaing.</p>
-     * <p><strong>Parameters:</strong><br/>
-     * [*subject] {string} <br/>
-     * [*fromfield] {string} <br/>
-     * [*replyto] {string} <br/>
-     * [*message] {string} <br/>
-     * [*textmessage] {string} <br/>
-     * [*footer] {string} <br/>
-     * [*status] {string} <br/>
-     * [*sendformat] {string} <br/>
-     * [*template] {string} <br/>
-     * [*embargo] {string} <br/>
-     * [*rsstemplate] {string} <br/>
-     * [*owner] {string} <br/>
-     * [htmlformatted] {string} <br/>
-     * <p><strong>Returns:</strong><br/>
+     * Adds a new message/campaing.
+     * Parameters:
+     * [*subject] {string}
+     * [*fromfield] {string}
+     * [*replyto] {string}
+     * [*message] {string}
+     * [*textmessage] {string}
+     * [*footer] {string}
+     * [*status] {string}
+     * [*sendformat] {string}
+     * [*template] {string}
+     * [*embargo] {string}
+     * [*rsstemplate] {string}
+     * [*owner] {string}
+     * [htmlformatted] {string}
+     * Returns:
      * The message added.
-     * </p>
+     *
      */
     static function messageAdd(){
 
@@ -69,25 +69,25 @@ class Messages{
     }
 
     /**
-     * <p>Updates existing message/campaign.</p>
-     * <p><strong>Parameters:</strong><br/>
-     * [*id] {integer} <br/>
-     * [*subject] {string} <br/>
-     * [*fromfield] {string} <br/>
-     * [*replyto] {string} <br/>
-     * [*message] {string} <br/>
-     * [*textmessage] {string} <br/>
-     * [*footer] {string} <br/>
-     * [*status] {string} <br/>
-     * [*sendformat] {string} <br/>
-     * [*template] {string} <br/>
-     * [*embargo] {string} <br/>
-     * [*rsstemplate] {string} <br/>
-     * [owner] {string} <br/>
-     * [htmlformatted] {string} <br/>
-     * <p><strong>Returns:</strong><br/>
+     * Updates existing message/campaign.
+     * Parameters:
+     * [*id] {integer}
+     * [*subject] {string}
+     * [*fromfield] {string}
+     * [*replyto] {string}
+     * [*message] {string}
+     * [*textmessage] {string}
+     * [*footer] {string}
+     * [*status] {string}
+     * [*sendformat] {string}
+     * [*template] {string}
+     * [*embargo] {string}
+     * [*rsstemplate] {string}
+     * [owner] {string}
+     * [htmlformatted] {string}
+     * Returns:
      * The message added.
-     * </p>
+     *
      */
     static function messageUpdate( $id = 0 ){
 

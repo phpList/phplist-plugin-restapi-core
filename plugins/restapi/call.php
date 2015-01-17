@@ -20,7 +20,7 @@ $response = new Response();
 $common = new Common();
 $actions = new Actions( $response );
 $subscribers = new Subscribers();
-$templates = new Templates();
+$templates = new Templates( $common );
 $messages = new Messages();
 
 // Check if this is called outside phpList auth, this should never occur!

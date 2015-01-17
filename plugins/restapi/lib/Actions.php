@@ -7,6 +7,9 @@ namespace Rapi;
  */
 class Actions {
 
+    // Response object
+    protected $response;
+
     public function __construct( Response $response )
     {
         $this->response = $response;

@@ -4,6 +4,17 @@ namespace Rapi;
 
 class Subscribers {
 
+    protected $common;
+    protected $pdoEx;
+    protected $response;
+
+    public function __construct( Common $common, PdoEx $pdoEx, Response $response )
+    {
+        $this->common = $common;
+        $this->response = $response;
+        $this->pdoEx = $pdoEx;
+    }
+
     /**
      * <p>Get all the Subscribers in the system.</p>
 		 * <p><strong>Parameters:</strong><br/>
@@ -22,7 +33,7 @@ class Subscribers {
 				if ( isset( $_REQUEST['order'] ) && !empty( $_REQUEST['order'] ) ) $order = $_REQUEST['order'];
 				if ( isset( $_REQUEST['limit'] ) && !empty( $_REQUEST['limit'] ) ) $limit = $_REQUEST['limit'];
 
-        Common::select( 'Users', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user ORDER BY $order_by $order LIMIT $limit;' );
+        $this->common->select( 'Users', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user ORDER BY $order_by $order LIMIT $limit;' );
     }
 
     /**
@@ -36,7 +47,7 @@ class Subscribers {
      */
     static function subscriberGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];
-        Common::select( 'User', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE id = $id;', true );
+        $this->common->select( 'User', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE id = $id;', true );
     }
 
     /**
@@ -49,8 +60,11 @@ class Subscribers {
      * </p>
      */
     static function subscriberGetByEmail( $email = '') {
-        if ( empty( $email ) ) $email = $_REQUEST['email'];
-        Common::select( 'User', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE email = '$email';', true );
+        if ( empty( $email ) ) {
+            $email = $_REQUEST['email'];
+        }
+
+        $this->common->select( 'User', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE email = "$email";', true );
     }
 
     /**
@@ -71,8 +85,7 @@ class Subscribers {
 
         $sql = 'INSERT INTO ' . $GLOBALS['usertable_prefix'] . 'user (email, confirmed, htmlemail, rssfrequency, password, passwordchanged, disabled, entered, uniqid) VALUES (:email, :confirmed, :htmlemail, :rssfrequency, :password, now(), :disabled, now(), :uniqid);';
         try {
-            $db = PDO::getConnection();
-            $stmt = $db->prepare($sql);
+            $stmt = $pdoEx->prepare($sql);
             $stmt->bindParam('email', $_REQUEST['email']);
             $stmt->bindParam('confirmed', $_REQUEST['confirmed']);
             $stmt->bindParam('htmlemail', $_REQUEST['htmlemail']);
@@ -88,9 +101,9 @@ class Subscribers {
             $stmt->execute();
             $id = $db->lastInsertId();
             $db = null;
-            Subscribers::SubscriberGet( $id );
+            $this->SubscriberGet( $id );
         } catch(\PDOException $e) {
-            Response::outputError($e);
+            $this->response->outputError($e);
         }
 
     }
@@ -115,7 +128,7 @@ class Subscribers {
         $sql = 'UPDATE ' . $GLOBALS['usertable_prefix'] . 'user SET email=:email, confirmed=:confirmed, htmlemail=:htmlemail, rssfrequency=:rssfrequency, password=:password, passwordchanged=now(), disabled=:disabled WHERE id=:id;';
 
         try {
-            $db = PDO::getConnection();
+            $db = $this->pdoEx->getConnection();
             $stmt = $db->prepare($sql);
             $stmt->bindParam('id', $_REQUEST['id']);
             $stmt->bindParam('email', $_REQUEST['email'] );
@@ -126,9 +139,9 @@ class Subscribers {
             $stmt->bindParam('disabled', $_REQUEST['disabled'] );
             $stmt->execute();
             $db = null;
-            Subscribers::SubscriberGet( $_REQUEST['id'] );
+            $this->SubscriberGet( $_REQUEST['id'] );
         } catch(\PDOException $e) {
-            Response::outputError($e);
+            $this->response->outputError($e);
         }
 
     }
@@ -146,14 +159,14 @@ class Subscribers {
 
         $sql = 'DELETE FROM ' . $GLOBALS['usertable_prefix'] . 'user WHERE id=:id;';
         try {
-            $db = PDO::getConnection();
+            $db = $this->pdoEx->getConnection();
             $stmt = $db->prepare($sql);
             $stmt->bindParam('id', $_REQUEST['id']);
             $stmt->execute();
             $db = null;
-            Response::outputDeleted( 'Subscriber', $_REQUEST['id'] );
+            $this->response->outputDeleted( 'Subscriber', $_REQUEST['id'] );
         } catch(\PDOException $e) {
-            Response::outputError($e);
+            $this->response->outputError($e);
         }
 
     }

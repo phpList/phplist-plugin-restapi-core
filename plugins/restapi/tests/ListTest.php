@@ -21,9 +21,49 @@ class TestLists extends \PHPUnit_Framework_TestCase
 
     public function testListGet()
     {
+        // Set arbitrary list ID to retrieve
         $listId = 2;
+        // Set expected data type
+        $type = 'List';
+
+        // Retrieve list
         $response = $this->lists->listGet( $listId );
-        var_dump($response);
+
+        // Check correct object was returned
+        $this->assertInstanceOf( '\Rapi\Response', $this->response );
+        // Map the private result array to a readable variable
+        $responseArray = PHPUnit_Framework_Assert::readAttribute( $response, 'result' );
+        // Check that status exists
+        $this->assertTrue( array_key_exists( 'status', $responseArray ) );
+        // Check call was successful
+        $this->assertEquals( 'success', $responseArray['status'] );
+        // Check that type exists
+        $this->assertTrue( array_key_exists( 'type', $responseArray ) );
+        // Check correct response type was set
+        $this->assertEquals( $type, $responseArray['type'] );
+        // Check that data exists
+        $this->assertTrue( array_key_exists( 'data', $responseArray ) );
+        // Check correct data was set
+        $this->assertInstanceOf( '\StdClass', $responseArray['data'] );
+
+        $propertiesTest = array(
+            'id'
+            , 'name'
+            , 'description'
+            , 'entered'
+            , 'listorder'
+            , 'prefix'
+            , 'rssfeed'
+            , 'modified'
+            , 'active'
+            , 'owner'
+            , 'category'
+        );
+
+        // Check that all the correct properties are set
+        foreach ( $propertiesTest as $property ) {
+            $this->assertTrue( property_exists( $responseArray['data'], $property ) );
+        }
     }
 
     public function testListAdd()

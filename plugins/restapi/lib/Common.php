@@ -4,6 +4,14 @@ namespace Rapi;
 
 class Common {
 
+    // Extended pdo object
+    protected $pdoEx;
+
+    public function __construct( PdoEx $pdoEx )
+    {
+        $this->pdoEx = $pdoEx;
+    }
+
     /**
      * Execute an SQL select query and generate Response object
      * @param  string $type   [description]
@@ -11,14 +19,12 @@ class Common {
      * @param  bool $single Whether only one record should be returned
      * @return Response $response Generated Response object
      */
-    function select( $type, $sql, $single=false )
+    public function select( $type, $sql, $single=false )
     {
-        $response = new \Rapi\Response();
+        $response = new Response();
         try {
-            $db = \Rapi\Pdo::getConnection();
-            $stmt = $db->query($sql);
-            $result = $stmt->fetchAll( \Pdo::FETCH_OBJ );
-            $db = null;
+            $stmt = $this->pdoEx->query( $sql );
+            $result = $stmt->fetchAll( \PDO::FETCH_OBJ );
 
             // If just one result is requested and more are available, use 1st
             if (
@@ -39,7 +45,7 @@ class Common {
      * Generate a URL for executing API calls
      * @param [type] $website [description]
      */
-    static function apiUrl( $website, $pageRoot, $adminDir )
+    public function apiUrl( $website, $pageRoot, $adminDir )
     {
         $protocol = '';
         // If server is using SSL rewrite URI accordingly

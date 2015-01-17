@@ -6,8 +6,10 @@ class TestCommon extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        // Mock necessary globals
-        $this->common = new \Rapi\Common();
+        // Instantiate necessary objects
+        // TODO: Consider mocking these
+        $this->pdoEx = new \Rapi\PdoEx();
+        $this->common = new \Rapi\Common( $this->pdoEx );
         $this->domain = 'local.pl';
     }
 

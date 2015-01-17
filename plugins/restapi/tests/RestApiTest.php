@@ -83,13 +83,13 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
      * Test for simple success of fetching of all lists
      * @note Only the 'status' property is tested
      */
-    public function testListsGet()
+    public function testMultiListGet()
     {
         // Create empty params array
         $post_params = array();
 
         // Execute the api call
-        $result = $this->callApi( 'listsGet', $post_params );
+        $result = $this->callApi( 'multiListGet', $post_params );
 
         // Check if the lists were fetched successfully
         $this->assertEquals( 'success', $result->status );

@@ -26,7 +26,7 @@ class Lists {
      * Array of lists.
      *
      */
-    public function listsGet()
+    public function multiListGet()
     {
         return $this->common->select( 'Lists', "SELECT * FROM " . $GLOBALS['table_prefix'] . "list ORDER BY listorder;" );
     }

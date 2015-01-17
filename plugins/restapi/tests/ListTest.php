@@ -15,10 +15,6 @@ class TestLists extends \PHPUnit_Framework_TestCase
         $this->lists = new \Rapi\Lists( $this->common, $this->response, $this->request );
     }
 
-    public function testListsGet()
-    {
-    }
-
     public function testListGet()
     {
         // Set arbitrary list ID to retrieve
@@ -64,6 +60,10 @@ class TestLists extends \PHPUnit_Framework_TestCase
         foreach ( $propertiesTest as $property ) {
             $this->assertTrue( property_exists( $responseArray['data'], $property ) );
         }
+    }
+
+    public function testMultiListGet()
+    {
     }
 
     public function testListAdd()

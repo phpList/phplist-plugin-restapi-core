@@ -49,7 +49,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Execute the call
         $result = curl_exec( $c );
-
+var_dump($result);
         // Check if decoding of result is required
         if ( $decode === true )
         {
@@ -77,6 +77,21 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
         // Check if the login was successful
         $this->assertEquals( 'success', $result->status );
 
+    }
+
+    /**
+    * Test for simple success of fetching of a list
+    */
+    public function testListGet()
+    {
+        // Create empty params array
+        $listId = 2;
+
+        // Execute the api call
+        $result = $this->callApi( 'listGet', $listId );
+
+        // Check if the lists were fetched successfully
+        $this->assertEquals( 'success', $result->status );
     }
 
     /**

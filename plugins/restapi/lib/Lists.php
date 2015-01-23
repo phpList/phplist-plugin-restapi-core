@@ -11,11 +11,13 @@ class Lists {
     protected $response;
     protected $request; // HTTP request variables
 
-    public function __construct( Common $common, Response $response, array $request )
+    public function __construct( Common $common, PdoEx $pdoEx, Response $response )
     {
         $this->common = $common;
+        $this->pdoEx = $pdoEx;
         $this->response = $response;
-        $this->request = $request;
+        // TODO: Check how this is used and add method to set it's values
+        $this->request = array();
     }
 
     /**

@@ -10,14 +10,14 @@ class PdoEx extends \PDO {
 
     public function __construct()
     {
-        // Set necessary parameters from globals for the connection
-        $dbhost = $GLOBALS['database_host'];
-        $dbuser = $GLOBALS['database_user'];
-        $dbpass = $GLOBALS['database_password'];
-        $dbname = $GLOBALS['database_name'];
+        // NOTE: This constructor is here to avoid automatic call to the parent
+        // constructor of PDF, which requires parameters
+    }
 
+    public function connect( $hostname, $username, $pass, $dbname )
+    {
         // Create a PDO object
-        parent::__construct( "mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass );
+        parent::__construct( "mysql:host=$hostname;dbname=$username", $pass, $dbname );
 
         // Configure connection parameters
         $this->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );

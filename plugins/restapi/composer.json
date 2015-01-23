@@ -1,5 +1,10 @@
 {
-    "require-dev": {
+    "require": {
+        "symfony/dependency-injection": "~2.6",
+        "symfony/yaml": "~2.6",
+        "symfony/config": "~2.6"
+    }
+    , "require-dev": {
         "symfony/debug": "2.5.*"
         , "phpunit/phpunit": "4.2.*"
         , "phpunit/dbunit": "1.3.*"

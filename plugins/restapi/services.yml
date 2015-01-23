@@ -1,0 +1,25 @@
+services:
+# Classes without dependencies
+  PdoEx:
+    class:     Rapi\PdoEx
+  Response:
+    class:     Rapi\Response
+  Messages:
+    class:     Rapi\Messages
+
+# Classes with dependencies
+  Actions:
+    class:     Rapi\Actions
+    arguments: [@response]
+  Common:
+    class:     Rapi\Common
+    arguments: [@PdoEx]
+  Lists:
+    class:     Rapi\Lists
+    arguments: [@Common, @PdoEx, @Response]
+  Subscribers:
+    class:     Rapi\Subscribers
+    arguments: [@Common, @PdoEx, @Response]
+  Templates:
+    class:     Rapi\Templates
+    arguments: [@Common]

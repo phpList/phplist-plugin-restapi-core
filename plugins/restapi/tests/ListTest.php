@@ -10,9 +10,16 @@ class TestLists extends \PHPUnit_Framework_TestCase
         // TODO: Consider mocking these
         $this->pdoEx = new \Rapi\PdoEx;
         $this->common = new \Rapi\Common( $this->pdoEx );
-        $this->request = array();
         $this->response = new \Rapi\Response();
-        $this->lists = new \Rapi\Lists( $this->common, $this->response, $this->request );
+        $this->lists = new \Rapi\Lists( $this->common, $this->pdoEx, $this->response );
+
+        // Connect to database
+        $this->pdoEx->connect(
+            $GLOBALS['database_host']
+            , $GLOBALS['database_user']
+            , $GLOBALS['database_password']
+            , $GLOBALS['database_name']
+        );
     }
 
     public function testListGet()

@@ -11,6 +11,14 @@ class TestCommon extends \PHPUnit_Framework_TestCase
         $this->pdoEx = new \Rapi\PdoEx();
         $this->common = new \Rapi\Common( $this->pdoEx );
         $this->domain = 'local.pl';
+
+        // Connect to database
+        $this->pdoEx->connect(
+            $GLOBALS['database_host']
+            , $GLOBALS['database_user']
+            , $GLOBALS['database_password']
+            , $GLOBALS['database_name']
+        );
     }
 
     public function testSelect()

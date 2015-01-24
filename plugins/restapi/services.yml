@@ -9,8 +9,11 @@ services:
 
 # Classes with dependencies
   Actions:
+    class:     Rapi\Call
+    arguments: [@Container]
+  Actions:
     class:     Rapi\Actions
-    arguments: [@response]
+    arguments: [@Response]
   Common:
     class:     Rapi\Common
     arguments: [@PdoEx]

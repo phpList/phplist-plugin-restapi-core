@@ -24,7 +24,7 @@ $loader = new YamlFileLoader( $container, new FileLocator(__DIR__) );
 // Load the service config file, which is in YAML format
 $loader->load( 'services.yml' );
 
-if (function_exists('api_request_log'))
+if ( function_exists( 'api_request_log' ) )
 {
     api_request_log();
 }
@@ -38,6 +38,7 @@ $subscribers = $container->get( 'Subscribers' );
 $templates = $container->get( 'Templates' );
 $messages = $container->get( 'Messages' );
 $lists = $container->get( 'Lists' );
+$call = $container->get( 'Call' );
 
 // Connect to database
 $pdoEx->connect(
@@ -53,20 +54,11 @@ if ( empty( $plugin->coderoot ) )
     $response->outputErrorMessage( 'Not authorized! Please login with [login] and [password] as admin first!' );
 }
 
-// Check if command is empty!
-$cmd = $_REQUEST['cmd'];
-$cmd = preg_replace( '/\W/','',$cmd );
-if ( empty($cmd) ){
-    $response->outputMessage( 'OK! For action, please provide Post Param Key [cmd] !' );
+// Check the command is callable
+if ( ! $call->isCallable( $cmd ) ) {
+    // Add error message if not callable
+    $response->outputMessage( 'For action, please provide Post Param Key [cmd] !' );
 }
 
-// Try calling the requested method on all of the available classes
-// NOTE: This looks inefficient
-if ( is_callable( array( 'Rapi\Lists',       $cmd ) ) ) $lists->$cmd();
-if ( is_callable( array( 'Rapi\Actions',     $cmd ) ) ) $actions->$cmd();
-if ( is_callable( array( 'Rapi\Subscribers', $cmd ) ) ) $subscribers->$cmd();
-if ( is_callable( array( 'Rapi\Templates',   $cmd ) ) ) $templates->$cmd();
-if ( is_callable( array( 'Rapi\Messages',    $cmd ) ) ) $messages->$cmd();
-
-//If no command found, return error message!
-$response->outputErrorMessage( 'No function for provided [cmd] found!' );
+// Execute the requested call
+$call->doCall( $cmd );

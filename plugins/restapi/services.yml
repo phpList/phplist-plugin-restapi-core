@@ -26,3 +26,6 @@ services:
   Templates:
     class:     Rapi\Templates
     arguments: [@Common]
+  Call:
+    class:     Rapi\Call
+    arguments: [@actions, @lists, @messages, @subscribers, @templates]

@@ -7,7 +7,7 @@ class Common {
     // Extended pdo object
     protected $pdoEx;
 
-    public function __construct( PdoEx $pdoEx )
+    public function __construct( PdoEx $pdoEx, Response $response )
     {
         $this->pdoEx = $pdoEx;
     }
@@ -19,7 +19,7 @@ class Common {
      * @param  bool $single Whether only one record should be returned
      * @return Response $response Generated Response object
      */
-    public function select( $type, $sql, $single=false )
+    public function select( $type, $sql, $single = false )
     {
         $response = new Response();
         try {

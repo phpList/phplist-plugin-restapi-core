@@ -53,11 +53,13 @@ class Lists {
         }
 
         // Fetch list
-        return $this->common->select(
+        $result = $this->common->select(
             'List'
             , "SELECT * FROM " . $GLOBALS['table_prefix'] . "list WHERE id = $id;"
             , true
         );
+        
+        return $result;
     }
 
     /**

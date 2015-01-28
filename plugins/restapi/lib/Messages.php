@@ -2,8 +2,6 @@
 
 namespace Rapi;
 
-defined('PHPLISTINIT') || die;
-
 /**
  * Class Messages
  * Manage phplist Messages
@@ -95,7 +93,6 @@ class Messages {
         if ( $id == 0 ) $id = $_REQUEST['id'];
         $sql = "UPDATE " . $GLOBALS['table_prefix'] . "message SET subject=:subject, fromfield=:fromfield, replyto=:replyto, message=:message, textmessage=:textmessage, footer=:footer, status=:status, sendformat=:sendformat, template=:template, sendstart=:sendstart, rsstemplate=:rsstemplate, owner=:owner, htmlformatted=:htmlformatted WHERE id=:id;";
         try {
-            $db = PDO->getConnection();
             $stmt = $this->pdoEx->prepare($sql);
             $stmt->bindParam("id", $id );
             $stmt->bindParam("subject", $_REQUEST['subject'] );

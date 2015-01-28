@@ -2,10 +2,25 @@
 
 namespace Rapi;
 
+/**
+ * Class handle API call functionality and execution
+ * @note This class is ignorant of call output and forwards it transparently
+ */
 class Call {
+
+    public function __construct( Actions $actions, Lists $lists, Messages $messages, Response $response, Subscribers $subscribers, Templates $templates )
+    {
+        $this->actions = $actions;
+        $this->lists = $lists;
+        $this->messages = $messages;
+        $this->subscribers = $subscribers;
+        $this->response = $response;
+        $this->templates = $templates;
+    }
     /**
      * Check that the requested command is callable
      * @param string $cmd Command to execute
+     * @return bool
      */
     public function isCallable( $cmd )
     {
@@ -27,25 +42,24 @@ class Call {
     /**
      * Execute an api call
      * @param string $cmd command to execute
-     * @param Actions $actions
-     * @param Lists $lists
-     * @param Messages $messages
-     * @param Subscribers $subscribers
-     * @param Templates $templates
+     * @param array $params Parameters required for the call, e.g. list ID
      */
-    public function doCall( $cmd, $actions, $lists, $messages, $subscribers, $templates )
+    public function doCall( $cmd, array $params )
     {
-        $handlers = array( $actions, $lists, $messages, $subscribers, $templates );
+        // Create array of handler classes for processing
+        $handlers = array( $this->actions, $this->lists, $this->messages, $this->subscribers, $this->templates );
 
         foreach( $handlers as $handler ) {
             // Check if the handler class has the requested method
             if ( method_exists( $handler, $cmd ) ) {
                 // Make the call
-                $handler->$cmd();
+                $result = $handler->$cmd( $params );
+                // End the loop and pass on the output from the called method
+                return $result;
             }
         }
 
         //If no command found, return error message!
-        $response->outputErrorMessage( 'No function for provided [cmd] found!' );
+        $this->response->outputErrorMessage( 'No function for provided [cmd] found!' );
     }
 }

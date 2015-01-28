@@ -1,7 +1,5 @@
 services:
 # Classes without dependencies
-  PdoEx:
-    class:     Rapi\PdoEx
   Response:
     class:     Rapi\Response
   Messages:
@@ -14,18 +12,30 @@ services:
   Actions:
     class:     Rapi\Actions
     arguments: [@Response]
+  Call:
+    class:     Rapi\Call
+    arguments: [@actions, @lists, @messages, @response, @subscribers, @templates]
   Common:
     class:     Rapi\Common
     arguments: [@PdoEx]
   Lists:
     class:     Rapi\Lists
     arguments: [@Common, @PdoEx, @Response]
+  PdoEx:
+    class:     Rapi\PdoEx
+    arguments: [%pdoEx.hostname%, %pdoEx.username%, %pdoEx.pass%, %pdoEx.dbname%]
   Subscribers:
     class:     Rapi\Subscribers
     arguments: [@Common, @PdoEx, @Response]
   Templates:
     class:     Rapi\Templates
     arguments: [@Common]
-  Call:
-    class:     Rapi\Call
-    arguments: [@actions, @lists, @messages, @subscribers, @templates]
+
+# Define parameters, to be set in app logic
+# NOTE: the classname.parameter syntax is just a Symfony convention; parameter
+# names are handles as single simple strings
+parameters:
+  pdoEx.hostname: hostname
+  pdoEx.username: username
+  pdoEx.pass: pass
+  pdoEx.dbname: dbname

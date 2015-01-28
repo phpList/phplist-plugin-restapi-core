@@ -24,20 +24,18 @@ $loader = new YamlFileLoader( $container, new FileLocator(__DIR__) );
 // Load the service config file, which is in YAML format
 $loader->load( 'services.yml' );
 
+// Set service parameters for the database connection
+// These service parameters will be used as constructor arguments for pdoEx{}
+$container->setParameter( 'pdoEx.hostname', $GLOBALS['database_host'] );
+$container->setParameter( 'pdoEx.username', $GLOBALS['database_user'] );
+$container->setParameter( 'pdoEx.pass', $GLOBALS['database_password'] );
+$container->setParameter( 'pdoEx.dbname', $GLOBALS['database_name'] );
+
 if ( function_exists( 'api_request_log' ) )
 {
     api_request_log();
 }
 
-// Instantiate objects for use
-$pdoEx = $container->get( 'PdoEx' );
-$response = $container->get( 'Response' );
-$common = $container->get( 'Common' );
-$actions = $container->get( 'Actions' );
-$subscribers = $container->get( 'Subscribers' );
-$templates = $container->get( 'Templates' );
-$messages = $container->get( 'Messages' );
-$lists = $container->get( 'Lists' );
 $call = $container->get( 'Call' );
 
 // Connect to database

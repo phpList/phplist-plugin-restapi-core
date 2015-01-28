@@ -5,6 +5,7 @@
         </testsuite>
     </testsuites>
     <php>
+        <!-- Constants -->
         <const name='API_URL_BASE_PATH' value='http://local.pl/lists/admin/?page=call&amp;pi=restapi'/>
         <const name='API_LOGIN_USERNAME' value='admin'/>
         <const name='API_LOGIN_PASSWORD' value='phplist'/>
@@ -14,5 +15,13 @@
         <const name='PAGE_ROOT' value='/lists'/>
         <!-- Name of the admin directory -->
         <const name='ADMIN_PATH' value='/admin'/>
+
+        <!-- Variables -->
+        <var name="DB_HOST" value="localhost" />
+        <var name="DB_PORT" value="3306" />
+        // !! Change these vars to fit your local config !!
+        <var name="DB_NAME" value="pl" />
+        <var name="DB_USER" value="pl" />
+        <var name="DB_PASSWD" value="pl" />
     </php>
 </phpunit>

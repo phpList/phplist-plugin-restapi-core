@@ -2,8 +2,6 @@
 
 require '/var/www/pl/configdev.php';
 
-echo "\$pageroot = $pageroot";
-
 // Include Symfony autoloader
 require_once( 'vendor/autoload.php' );
 

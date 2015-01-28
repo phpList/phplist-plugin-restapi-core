@@ -41,8 +41,11 @@ class Lists {
      * One list.
      *
      */
-    public function listGet( $id=0 )
+    public function listGet( array $params )
     {
+        // Map array members to variables
+        extract( $params );
+
         // FIXME: What purpose does this conditional serve? Under what
         // circumstances would _RESPONSE['id'] be set? Leaving for now
         if ( $id==0 ) {
@@ -50,7 +53,11 @@ class Lists {
         }
 
         // Fetch list
-        return $this->common->select( 'List', "SELECT * FROM " . $GLOBALS['table_prefix'] . "list WHERE id = $id;", true );
+        return $this->common->select(
+            'List'
+            , "SELECT * FROM " . $GLOBALS['table_prefix'] . "list WHERE id = $id;"
+            , true
+        );
     }
 
     /**

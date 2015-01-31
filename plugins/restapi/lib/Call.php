@@ -8,11 +8,11 @@ namespace Rapi;
  */
 class Call {
 
-    public function __construct( Actions $actions, Lists $lists, Messages $messages, Response $response, Subscribers $subscribers, Templates $templates )
+    public function __construct( Actions $actions, Lists $lists, Campaign $campaign, Response $response, Subscribers $subscribers, Templates $templates )
     {
         $this->actions = $actions;
         $this->lists = $lists;
-        $this->messages = $messages;
+        $this->campaign = $campaign;
         $this->subscribers = $subscribers;
         $this->response = $response;
         $this->templates = $templates;
@@ -47,7 +47,7 @@ class Call {
     public function doCall( $cmd, array $params )
     {
         // Create array of handler classes for processing
-        $handlers = array( $this->actions, $this->lists, $this->messages, $this->subscribers, $this->templates );
+        $handlers = array( $this->actions, $this->lists, $this->campaign, $this->subscribers, $this->templates );
 
         foreach( $handlers as $handler ) {
             // Check if the handler class has the requested method

@@ -7,7 +7,7 @@ class TestCall extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->response = new Rapi\Response();
-        $this->messages = new Rapi\Messages;
+        $this->campaign = new Rapi\Campaign;
         $this->pdoEx = new Rapi\PdoEx(
             $GLOBALS['DB_HOST']
             , $GLOBALS['DB_USER']
@@ -18,11 +18,11 @@ class TestCall extends \PHPUnit_Framework_TestCase
         // Instantiate objects
         // TODO: Mock these and test separately as well
         $this->actions = new Rapi\Actions( $this->response );
-        $this->common = new Rapi\Common( $this->pdoEx );
+        $this->common = new Rapi\Common( $this->pdoEx, $this->response );
         $this->lists = new Rapi\Lists( $this->common, $this->pdoEx, $this->response );
         $this->subscribers = new Rapi\Subscribers( $this->common, $this->pdoEx, $this->response );
         $this->templates = new Rapi\Templates( $this->common );
-        $this->call = new Rapi\Call( $this->actions, $this->lists, $this->messages, $this->response, $this->subscribers, $this->templates );
+        $this->call = new Rapi\Call( $this->actions, $this->lists, $this->campaign, $this->response, $this->subscribers, $this->templates );
     }
 
     public function testIsCallable()

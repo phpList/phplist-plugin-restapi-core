@@ -38,14 +38,6 @@ if ( function_exists( 'api_request_log' ) )
 
 $call = $container->get( 'Call' );
 
-// Connect to database
-$pdoEx->connect(
-    $GLOBALS['database_host']
-    , $GLOBALS['database_user']
-    , $GLOBALS['database_password']
-    , $GLOBALS['database_name']
-);
-
 // Check if this is called outside phpList auth, this should never occur!
 if ( empty( $plugin->coderoot ) )
 {
@@ -59,4 +51,4 @@ if ( ! $call->isCallable( $cmd ) ) {
 }
 
 // Execute the requested call
-$call->doCall( $cmd );
+$call->doCall( $cmd, $params );

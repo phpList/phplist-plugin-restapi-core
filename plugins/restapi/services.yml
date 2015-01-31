@@ -2,8 +2,8 @@ services:
 # Classes without dependencies
   Response:
     class:     Rapi\Response
-  Messages:
-    class:     Rapi\Messages
+  Campaign:
+    class:     Rapi\Campiagn
 
 # Classes with dependencies
   Actions:
@@ -14,7 +14,7 @@ services:
     arguments: [@Response]
   Call:
     class:     Rapi\Call
-    arguments: [@actions, @lists, @messages, @response, @subscribers, @templates]
+    arguments: [@actions, @lists, @campaign, @response, @subscribers, @templates]
   Common:
     class:     Rapi\Common
     arguments: [@PdoEx]

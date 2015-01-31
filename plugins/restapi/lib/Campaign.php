@@ -3,10 +3,10 @@
 namespace Rapi;
 
 /**
- * Class Messages
- * Manage phplist Messages
+ * Class Campaign
+ * Manage phplist campaigns and messages
  */
-class Messages {
+class Campaign {
 
     public function messageGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];

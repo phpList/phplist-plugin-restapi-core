@@ -7,7 +7,7 @@ namespace Rapi;
  * Andreas Ek, 2012-12-26
  */
 
-class Response{
+class Response {
 
     private $result;
 

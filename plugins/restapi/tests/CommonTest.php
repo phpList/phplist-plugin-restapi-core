@@ -21,19 +21,6 @@ class TestCommon extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSelect()
-    {
-        $response = $this->common->select( 'Users', 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user_user LIMIT 1' );
-        // Check that a response object was returned
-        $this->assertInstanceOf( '\Rapi\Response', $response );
-        // Get private property: response status
-        $responseStatus = PHPUnit_Framework_Assert::readAttribute( $response, 'result' );
-        // Check that response status indicates success
-        $this->assertEquals( 'success', $responseStatus['status'] );
-        // Check that the user ID is numeric
-        $this->assertTrue( is_numeric( $responseStatus['data'][0]->id ) );
-    }
-
     public function testApiUrl()
     {
         // Get an API call URL

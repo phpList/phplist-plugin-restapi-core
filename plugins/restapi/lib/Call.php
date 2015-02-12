@@ -27,7 +27,7 @@ class Call {
         // Remove any non-word characters
         $cmd = preg_replace( '/\W/','',$cmd );
         // Check if command is empty
-        if ( empty( $cmd ) ){
+        if ( empty( $cmd ) ) {
             return false;
         }
 

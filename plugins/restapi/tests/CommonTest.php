@@ -7,18 +7,15 @@ class TestCommon extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         // Instantiate necessary objects
-        // TODO: Consider mocking these
-        $this->pdoEx = new \Rapi\PdoEx();
-        $this->common = new \Rapi\Common( $this->pdoEx );
-        $this->domain = 'local.pl';
-
-        // Connect to database
-        $this->pdoEx->connect(
-            $GLOBALS['database_host']
-            , $GLOBALS['database_user']
-            , $GLOBALS['database_password']
-            , $GLOBALS['database_name']
+        $this->pdoEx = new Rapi\PdoEx(
+            $GLOBALS['DB_HOST']
+            , $GLOBALS['DB_USER']
+            , $GLOBALS['DB_PASSWD']
+            , $GLOBALS['DB_NAME']
         );
+        $this->response = new \Rapi\Response();
+        $this->common = new \Rapi\Common( $this->pdoEx, $this->response );
+        $this->domain = 'local.pl';
     }
 
     public function testApiUrl()

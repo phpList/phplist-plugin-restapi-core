@@ -13,6 +13,7 @@ class Lists {
 
     public function __construct( Common $common, PdoEx $pdoEx, Response $response )
     {
+        // FIXME: Common{} probably isn't required any more
         $this->common = $common;
         $this->pdoEx = $pdoEx;
         $this->response = $response;
@@ -30,7 +31,11 @@ class Lists {
      */
     public function multiListGet()
     {
-        return $this->common->select( 'Lists', "SELECT * FROM " . $GLOBALS['table_prefix'] . "list ORDER BY listorder;" );
+        return $this->pdoEx->select(
+            $this->response
+            , "SELECT * FROM " . $GLOBALS['table_prefix'] . "list ORDER BY listorder;"
+            , 'Lists'
+        );
     }
 
     /**
@@ -44,6 +49,7 @@ class Lists {
     public function listGet( array $params )
     {
         // Map array members to variables
+        // Expected params: [id]
         extract( $params );
 
         // FIXME: What purpose does this conditional serve? Under what
@@ -53,13 +59,14 @@ class Lists {
         }
 
         // Fetch list
-        $result = $this->common->select(
-            'List'
+        $response = $this->pdoEx->doQueryResponse(
+            $this->response
             , "SELECT * FROM " . $GLOBALS['table_prefix'] . "list WHERE id = $id;"
+            , 'List'
             , true
         );
-        
-        return $result;
+
+        return $response;
     }
 
     /**

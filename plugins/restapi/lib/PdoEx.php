@@ -24,7 +24,7 @@ class PdoEx extends \PDO {
      * Take a query result of unknown quantity and return only the first record
      * @param array $result Result of a successfully executed query
      */
-    public function trimFirstRecord( \PDOStatement $result )
+    public function trimFirstRecord( array $result )
     {
         // Check if there is more than one record
         if (

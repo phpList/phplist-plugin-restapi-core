@@ -8,29 +8,26 @@ class TestLists extends \PHPUnit_Framework_TestCase
     {
         // Instantiate necessary objects
         // TODO: Consider mocking these
-        $this->pdoEx = new \Rapi\PdoEx;
-        $this->common = new \Rapi\Common( $this->pdoEx );
-        $this->response = new \Rapi\Response();
-        $this->lists = new \Rapi\Lists( $this->common, $this->pdoEx, $this->response );
-
-        // Connect to database
-        $this->pdoEx->connect(
-            $GLOBALS['database_host']
-            , $GLOBALS['database_user']
-            , $GLOBALS['database_password']
-            , $GLOBALS['database_name']
+        $this->pdoEx = new Rapi\PdoEx(
+            $GLOBALS['DB_HOST']
+            , $GLOBALS['DB_USER']
+            , $GLOBALS['DB_PASSWD']
+            , $GLOBALS['DB_NAME']
         );
+        $this->response = new \Rapi\Response();
+        $this->common = new \Rapi\Common( $this->pdoEx, $this->response );
+        $this->lists = new \Rapi\Lists( $this->common, $this->pdoEx, $this->response );
     }
 
     public function testListGet()
     {
         // Set arbitrary list ID to retrieve
-        $listId = 2;
+        $params = array( 'id' => 2 );
         // Set expected data type
         $type = 'List';
 
         // Retrieve list
-        $response = $this->lists->listGet( $listId );
+        $response = $this->lists->listGet( $params );
 
         // Check correct object was returned
         $this->assertInstanceOf( '\Rapi\Response', $this->response );

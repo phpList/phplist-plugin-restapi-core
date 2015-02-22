@@ -1,8 +1,9 @@
 {
     "require": {
-        "symfony/dependency-injection": "~2.6",
-        "symfony/yaml": "~2.6",
-        "symfony/config": "~2.6"
+        "symfony/dependency-injection": "~2.6"
+        , "symfony/yaml": "~2.6"
+        , "symfony/config": "~2.6"
+        , "phplist/phplist4-core": "dev-dev"
     }
     , "require-dev": {
         "symfony/debug": "2.5.*"

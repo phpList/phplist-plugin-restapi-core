@@ -32,26 +32,16 @@ services:
     arguments: [@Common]
 
 # phpList 4 services
-  CampaignEntity:
-    class: phpList\helper\CampaignEntity
-  MailingListEntity:
-    class: phpList\helper\MailingListEntity
-  SubscriberEntity:
-    class: phpList\helper\SubscriberEntity
-  TemplateEntity:
-    class: phpList\helper\TemplateEntity
-  TemplateImageEntity:
-    class: phpList\helper\TemplateImageEntity
   Logger:
     class: phpList\helper\Logger
   Util:
     class: phpList\helper\Util
     arguments: [@Config, @Logger]
-  EmailAddress:
-    class:  phpList\EmailAddress
+  EmailUtil:
+    class:  phpList\EmailUtil
     arguments: [@Config, %emailaddress.address%]
-  Password:
-    class:  phpList\Password
+  Pass:
+    class:  phpList\Pass
     arguments: [@Config, %password.password%]
   Config:
     class: phpList\Config
@@ -71,14 +61,31 @@ services:
   MailingList:
     class: phpList\MailingList
     arguments: [@Config, @Database]
-  Subscriber:
-    class: phpList\Subscriber
-    arguments: [@Config, @Database]
+  SubscriberManager:
+    class: phpList\SubscriberManager
+    arguments: [@Config, @EmailUtil, @Pass, @SubscriberModel]
   Template:
     class: phpList\Template
     arguments: [@Config, @Database, @TemplateImage]
   TemplateImage:
     class: phpList\TemplateImage
+    arguments: [@Config, @Database]
+
+# Entities
+  CampaignEntity:
+    class: phpList\Entity\CampaignEntity
+  MailingListEntity:
+    class: phpList\Entity\MailingListEntity
+  SubscriberEntity:
+    class: phpList\Entity\SubscriberEntity
+  TemplateEntity:
+    class: phpList\Entity\TemplateEntity
+  TemplateImageEntity:
+    class: phpList\Entity\TemplateImageEntity
+
+# Models
+  SubscriberModel:
+    class: phpList\Model\SubscriberModel
     arguments: [@Config, @Database]
 
 # Define parameters, to be set in app logic

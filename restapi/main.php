@@ -2,14 +2,27 @@
 
 namespace Rapi;
 
+// Symfony namespaces
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 // NOTE: All include classes used to have this init check, now it's only here
 defined('PHPLISTINIT') || die;
 
-include 'includes/common.php';
+require_once 'vendor/autoload.php';
 
 $plugin = $GLOBALS['plugins'][$_GET['pi']];
 
-$common = new Common();
+// Create Symfony DI service container object for use by other classes
+$container = new ContainerBuilder();
+// Create new Symfony file loader to handle the YAML service config file
+$loader = new YamlFileLoader( $container, new FileLocator(__DIR__) );
+// Load the service config file, which is in YAML format
+$loader->load( 'services.yml' );
+// Get Common{} object
+$common = $container->get( 'Common' );
 
 // TODO: Replace hardcoded admin url with one set centrally
 $url = $Common->apiUrl( $website, $pageroot, '/admin;' );

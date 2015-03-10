@@ -14,7 +14,7 @@ services:
     arguments: [@Response]
   Call:
     class:     Rapi\Call
-    arguments: [@actions, @lists, @campaign, @response, @subscribers, @templates]
+    arguments: [@actions, @lists, @campaign, @Subscriber, @response, @subscribers, @templates]
   Common:
     class:     Rapi\Common
     arguments: [@PdoEx]
@@ -31,6 +31,56 @@ services:
     class:     Rapi\Templates
     arguments: [@Common]
 
+# phpList 4 services
+  CampaignEntity:
+    class: phpList\helper\CampaignEntity
+  MailingListEntity:
+    class: phpList\helper\MailingListEntity
+  SubscriberEntity:
+    class: phpList\helper\SubscriberEntity
+  TemplateEntity:
+    class: phpList\helper\TemplateEntity
+  TemplateImageEntity:
+    class: phpList\helper\TemplateImageEntity
+  Logger:
+    class: phpList\helper\Logger
+  Util:
+    class: phpList\helper\Util
+    arguments: [@Config, @Logger]
+  EmailAddress:
+    class:  phpList\EmailAddress
+    arguments: [@Config, %emailaddress.address%]
+  Password:
+    class:  phpList\Password
+    arguments: [@Config, %password.password%]
+  Config:
+    class: phpList\Config
+    arguments: [%config.configfile%]
+  Database:
+    class:  phpList\helper\Database
+    arguments: [@Config]
+  Language:
+    class: phpList\helper\Language
+    arguments: [@Database, @Config]
+  phpList:
+    class: phpList\phpList
+    arguments: [@Config, @Database, @Language, @Util]
+  Campaign:
+    class: phpList\Campaign
+    arguments: [@Config, @Database, @MailingList, @Template]
+  MailingList:
+    class: phpList\MailingList
+    arguments: [@Config, @Database]
+  Subscriber:
+    class: phpList\Subscriber
+    arguments: [@Config, @Database]
+  Template:
+    class: phpList\Template
+    arguments: [@Config, @Database, @TemplateImage]
+  TemplateImage:
+    class: phpList\TemplateImage
+    arguments: [@Config, @Database]
+
 # Define parameters, to be set in app logic
 # NOTE: the classname.parameter syntax is just a Symfony convention; parameter
 # names are handles as single simple strings
@@ -39,3 +89,8 @@ parameters:
   pdoEx.username: username
   pdoEx.pass: pass
   pdoEx.dbname: dbname
+
+# phpList 4 parameters
+  config.configfile: config_file
+  emailaddress.address: email_address
+  password.password: password

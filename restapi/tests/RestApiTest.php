@@ -30,7 +30,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
      */
     private function callApi( $command, $post_params, $decode = true )
     {
-        $post_params['cmd'] = $command;
+        $postParams['cmd'] = $command;
 
         // Serialise and encode query
         $post_params = http_build_query( $post_params );
@@ -49,7 +49,7 @@ class TestRestapi extends \PHPUnit_Framework_TestCase
 
         // Execute the call
         $result = curl_exec( $c );
-var_dump($result);
+print_r($result);
         // Check if decoding of result is required
         if ( $decode === true )
         {

@@ -12,10 +12,9 @@ class PdoEx extends \PDO {
     {
         // NOTE: If this constructor isn't present, the parent class'
         // constructor will automatically be called.
-
+        
         // Create a PDO object
         parent::__construct( "mysql:host=$hostname;dbname=$username", $pass, $dbname );
-
         // Configure connection parameters
         $this->setAttribute( \PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION );
     }

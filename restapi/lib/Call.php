@@ -8,7 +8,14 @@ namespace Rapi;
  */
 class Call {
 
-    public function __construct( Actions $actions, Lists $lists, Campaign $campaign, Response $response, Subscribers $subscribers, Templates $templates )
+    public function __construct(
+        Actions $actions
+        , Lists $lists
+        , Campaign $campaign
+        , Response $response
+        , Subscribers $subscribers
+        , Templates $templates
+    )
     {
         $this->actions = $actions;
         $this->lists = $lists;

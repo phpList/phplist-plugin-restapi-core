@@ -10,10 +10,10 @@ class TestPdoEx extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->pdoEx = new Rapi\PdoEx(
-            $GLOBALS['DB_HOST']
-            , $GLOBALS['DB_USER']
-            , $GLOBALS['DB_PASSWD']
-            , $GLOBALS['DB_NAME']
+            $GLOBALS['database_host']
+            , $GLOBALS['database_user']
+            , $GLOBALS['database_password']
+            , $GLOBALS['database_name']
         );
 
         // Mock necessary globals

@@ -21,11 +21,19 @@ $container = new ContainerBuilder();
 $loader = new YamlFileLoader( $container, new FileLocator(__DIR__) );
 // Load the service config file, which is in YAML format
 $loader->load( 'services.yml' );
+
+// Set service parameters for the database connection
+// These service parameters will be used as constructor arguments for pdoEx{}
+$container->setParameter( 'pdoEx.hostname', $GLOBALS['database_host'] );
+$container->setParameter( 'pdoEx.username', $GLOBALS['database_user'] );
+$container->setParameter( 'pdoEx.pass', $GLOBALS['database_password'] );
+$container->setParameter( 'pdoEx.dbname', $GLOBALS['database_name'] );
+
 // Get Common{} object
 $common = $container->get( 'Common' );
 
 // TODO: Replace hardcoded admin url with one set centrally
-$url = $Common->apiUrl( $website, $pageroot, '/admin;' );
+$url = $common->apiUrl( $website, $pageroot, '/admin/' );
 
 ?>
 

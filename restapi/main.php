@@ -22,6 +22,8 @@ $loader = new YamlFileLoader( $container, new FileLocator(__DIR__) );
 // Load the service config file, which is in YAML format
 $loader->load( 'services.yml' );
 
+// Set necessary config class parameter
+$container->setParameter( 'config.configfile', '/var/www/pl4/config.ini' );
 // Set service parameters for the database connection
 // These service parameters will be used as constructor arguments for pdoEx{}
 $container->setParameter( 'pdoEx.hostname', $GLOBALS['database_host'] );

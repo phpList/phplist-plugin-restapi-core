@@ -4,7 +4,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Rapi;
 
 require_once 'vendor/autoload.php';
 
@@ -20,7 +19,7 @@ $plugin = $GLOBALS['plugins'][$_GET['pi']];
 // Create Symfony DI service container object for use by other classes
 $container = new ContainerBuilder();
 // Create new Symfony file loader to handle the YAML service config file
-$loader = new YamlFileLoader( $container, new FileLocator(__DIR__) );
+$loader = new YamlFileLoader( $container, new FileLocator( __DIR__ ) );
 // Load the service config file, which is in YAML format
 $loader->load( 'services.yml' );
 
@@ -37,6 +36,7 @@ if ( function_exists( 'api_request_log' ) )
 }
 
 $call = $container->get( 'Call' );
+$response = $container->get( 'Response' );
 
 // Check if this is called outside phpList auth, this should never occur!
 if ( empty( $plugin->coderoot ) )
@@ -44,10 +44,18 @@ if ( empty( $plugin->coderoot ) )
     $response->outputErrorMessage( 'Not authorized! Please login with [login] and [password] as admin first!' );
 }
 
+// Check if a command name was specified
+if ( empty( $_REQUEST['cmd'] ) ) {
+    $response->outputMessage( 'No action requested: specify command name using \'cmd\' variable' );
+} else {
+    // Set command for use later
+    $cmd = $_REQUEST['cmd'];
+}
+
 // Check the command is callable
 if ( ! $call->isCallable( $cmd ) ) {
     // Add error message if not callable
-    $response->outputMessage( 'For action, please provide Post Param Key [cmd] !' );
+    $response->outputMessage( 'Requested command is not callable' );
 }
 
 // Execute the requested call

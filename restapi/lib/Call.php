@@ -11,7 +11,7 @@ class Call {
     public function __construct(
         Actions $actions
         , Lists $lists
-        , Campaign $campaign
+        // , Campaigns $campaign
         , Response $response
         , Subscribers $subscribers
         , Templates $templates
@@ -19,7 +19,7 @@ class Call {
     {
         $this->actions = $actions;
         $this->lists = $lists;
-        $this->campaign = $campaign;
+        // $this->campaign = $campaign;
         $this->subscribers = $subscribers;
         $this->response = $response;
         $this->templates = $templates;

@@ -13,14 +13,14 @@ class Call {
         , Lists $lists
         // , Campaigns $campaign
         , Response $response
-        , Subscribers $subscribers
+        , \phpList\SubscriberManager $subscriberManager
         , Templates $templates
     )
     {
         $this->actions = $actions;
         $this->lists = $lists;
         // $this->campaign = $campaign;
-        $this->subscribers = $subscribers;
+        $this->subscriberManager = $subscriberManager;
         $this->response = $response;
         $this->templates = $templates;
     }
@@ -48,25 +48,27 @@ class Call {
 
     /**
      * Execute an api call
-     * @param string $cmd command to execute
-     * @param array $params Parameters required for the call, e.g. list ID
+     * @param string $className to execute method on
+     * @param string $method name of method to execute
+     * @param array $argumentsArray arguments to pass to method
+     * @return \phpList\Entity\SubscriberEntity Data object
      */
-    public function doCall( $cmd, array $params )
+    public function doCall( $className, $method, array $argumentsArray )
     {
-        // Create array of handler classes for processing
-        $handlers = array( $this->actions, $this->lists, $this->campaign, $this->subscribers, $this->templates );
+        // NOTE: Consider adding use of isCallable() here and making that method
+        // private
 
-        foreach( $handlers as $handler ) {
-            // Check if the handler class has the requested method
-            if ( method_exists( $handler, $cmd ) ) {
-                // Make the call
-                $result = $handler->$cmd( $params );
-                // End the loop and pass on the output from the called method
-                return $result;
-            }
+        // Check if desired class is accessible as a property
+        if ( ! property_exists( $this, $className ) ) {
+            throw new \Exception( "Object '$className' is not an accessible Call class property" );
         }
+        // Check that desired method is callable
+        if ( ! is_callable( array( $this->$className, $method ) ) ) {
+            throw new \Exception( "API call method '$method' not callable on object '$className'" );
+        }
+        // Execute the desired action
+        $result = call_user_func_array( array( $this->$className, $method ), $argumentsArray );
 
-        //If no command found, return error message!
-        $this->response->outputErrorMessage( 'No function for provided [cmd] found!' );
+        return $result;
     }
 }

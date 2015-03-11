@@ -2,22 +2,16 @@ services:
 # Classes without dependencies
   Response:
     class:     Rapi\Response
-  Campaign:
-    class:     Rapi\Campiagn
+  Campaigns:
+    class:     Rapi\Campiagns
 
 # Classes with dependencies
   Actions:
-    class:     Rapi\Call
-    arguments: [@Container]
-  Actions:
     class:     Rapi\Actions
     arguments: [@Response]
-  Call:
-    class:     Rapi\Call
-    arguments: [@actions, @lists, @campaign, @Subscriber, @response, @subscribers, @templates]
   Common:
     class:     Rapi\Common
-    arguments: [@PdoEx]
+    arguments: [@PdoEx, @Response]
   Lists:
     class:     Rapi\Lists
     arguments: [@Common, @PdoEx, @Response]
@@ -30,6 +24,10 @@ services:
   Templates:
     class:     Rapi\Templates
     arguments: [@Common]
+# It seems order matters; hence Call{} definition goes last, not alphabetically
+  Call:
+    class:     Rapi\Call
+    arguments: [@Actions, @Lists, @Response, @Subscribers, @Templates]
 
 # phpList 4 services
   Logger:

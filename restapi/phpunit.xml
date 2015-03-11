@@ -17,11 +17,11 @@
         <const name='ADMIN_PATH' value='/admin'/>
 
         <!-- Variables -->
-        <var name="DB_HOST" value="localhost" />
+        <var name="database_host" value="localhost" />
         <var name="DB_PORT" value="3306" />
         // !! Change these vars to fit your local config !!
-        <var name="DB_NAME" value="pl" />
-        <var name="DB_USER" value="pl" />
-        <var name="DB_PASSWD" value="pl" />
+        <var name="database_name" value="pl" />
+        <var name="database_user" value="pl" />
+        <var name="database_password" value="pl" />
     </php>
 </phpunit>

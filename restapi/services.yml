@@ -27,7 +27,7 @@ services:
 # It seems order matters; hence Call{} definition goes last, not alphabetically
   Call:
     class:     Rapi\Call
-    arguments: [@Actions, @Lists, @Response, @Subscribers, @Templates]
+    arguments: [@Actions, @Lists, @Response, @SubscriberManager, @Templates]
 
 # phpList 4 services
   Logger:

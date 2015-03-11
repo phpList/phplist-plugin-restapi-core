@@ -10,9 +10,19 @@ class PdoEx extends \PDO {
 
     public function __construct( $hostname, $username, $pass, $dbname )
     {
+        // Check that DSN values are not set to default values
+        if (
+            $hostname == 'hostname'
+            || $username == 'username'
+            || $pass == 'pass'
+            || $dbname == 'dbname'
+        ) {
+            throw new \Exception( 'Database connection parameters were not set before accessing object from container' );
+        }
+
         // NOTE: If this constructor isn't present, the parent class'
         // constructor will automatically be called.
-        
+
         // Create a PDO object
         parent::__construct( "mysql:host=$hostname;dbname=$username", $pass, $dbname );
         // Configure connection parameters

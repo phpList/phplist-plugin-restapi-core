@@ -1,28 +1,35 @@
 <?php
 
-require_once 'vendor/autoload.php';
+// Symfony namespaces
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
+// Phplist 4 namespaces
+use phpList\SubscriberManager;
 
 class TestCall extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->response = new Rapi\Response();
-        $this->campaign = new Rapi\Campaign;
-        $this->pdoEx = new Rapi\PdoEx(
-            $GLOBALS['DB_HOST']
-            , $GLOBALS['DB_USER']
-            , $GLOBALS['DB_PASSWD']
-            , $GLOBALS['DB_NAME']
-        );
+        // Create Symfony DI service container object for use by other classes
+        $this->container = new ContainerBuilder();
+        // Create new Symfony file loader to handle the YAML service config file
+        $loader = new YamlFileLoader( $this->container, new FileLocator(__DIR__) );
+        // Load the service config file, which is in YAML format
+        $loader->load( '../services.yml' );
+        // Set necessary config class parameter
+        $this->container->setParameter( 'config.configfile', '/var/www/pl4/config.ini' );
+        // These service parameters will be used as constructor arguments for pdoEx{}
+        $this->container->setParameter( 'pdoEx.hostname', $GLOBALS['database_host'] );
+        $this->container->setParameter( 'pdoEx.username', $GLOBALS['database_user'] );
+        $this->container->setParameter( 'pdoEx.pass', $GLOBALS['database_password'] );
+        $this->container->setParameter( 'pdoEx.dbname', $GLOBALS['database_name'] );
 
         // Instantiate objects
-        // TODO: Mock these and test separately as well
-        $this->actions = new Rapi\Actions( $this->response );
-        $this->common = new Rapi\Common( $this->pdoEx, $this->response );
-        $this->lists = new Rapi\Lists( $this->common, $this->pdoEx, $this->response );
-        $this->subscribers = new Rapi\Subscribers( $this->common, $this->pdoEx, $this->response );
-        $this->templates = new Rapi\Templates( $this->common );
-        $this->call = new Rapi\Call( $this->actions, $this->lists, $this->campaign, $this->response, $this->subscribers, $this->templates );
+        $this->subscriberManager = $this->container->get( 'SubscriberManager' );
+        $this->call = $this->container->get( 'Call' );
     }
 
     public function testIsCallable()
@@ -37,13 +44,14 @@ class TestCall extends \PHPUnit_Framework_TestCase
 
     public function testDoCall()
     {
-        // Set command to call
-        $cmd = "listGet";
+        // Set API call arguments
+        $className = 'subscriberManager';
+        $method = 'getSubscriber';
         // Set params for command
         $params = array( 'id' => 2 );
         // Execute the call
-        $result = $this->call->doCall( $cmd, $params );
-
+        $result = $this->call->doCall( $className, $method, $params );
+        
         // TODO: refactor doCall and Common{}->select() so result of doCall() is raw data not a Response{} object
     }
 }

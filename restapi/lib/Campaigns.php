@@ -6,7 +6,7 @@ namespace Rapi;
  * Class Campaign
  * Manage phplist campaigns and messages
  */
-class Campaign {
+class Campaigns {
 
     public function messageGet( $id=0 ) {
         if ( $id==0 ) $id = $_REQUEST['id'];

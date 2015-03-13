@@ -9,7 +9,7 @@ namespace Rapi;
 class Call {
 
     public function __construct(
-        Actions $actions
+        Admin $admin
         , Lists $lists
         // , Campaigns $campaign
         , Response $response
@@ -17,7 +17,7 @@ class Call {
         , Templates $templates
     )
     {
-        $this->actions = $actions;
+        $this->admin = $admin;
         $this->lists = $lists;
         // $this->campaign = $campaign;
         $this->subscriberManager = $subscriberManager;
@@ -25,25 +25,30 @@ class Call {
         $this->templates = $templates;
     }
     /**
-     * Check that the requested command is callable
-     * @param string $cmd Command to execute
+     * Validate a requested call
+     * @param
      * @return bool
      */
-    public function isCallable( $cmd )
+    public function validateCall( $className, $method )
     {
-        // Remove any non-word characters
-        $cmd = preg_replace( '/\W/','',$cmd );
-        // Check if command is empty
-        if ( empty( $cmd ) ) {
-            return false;
+        // Default result to true / pass
+        $result = true;
+        $subjects = array( $className, $method );
+
+        // Loop through items to be tested
+        foreach ( $subjects as $subject ) {
+            // Check for non-word characters
+            if ( preg_match( '/\W/', $subject ) ) {
+                $result = false;
+            }
         }
 
         // Check that the name of the method uses valid syntax
-        if ( ! is_callable( $cmd, true ) ) {
-            return false;
+        if ( ! is_callable( $method, true ) ) {
+            $result = false;
         }
 
-        return true;
+        return $result;
     }
 
     /**
@@ -66,9 +71,25 @@ class Call {
         if ( ! is_callable( array( $this->$className, $method ) ) ) {
             throw new \Exception( "API call method '$method' not callable on object '$className'" );
         }
+
+        // Format the parameters
+        $formattedParams = $this->formatParams( $argumentsArray );
+
         // Execute the desired action
-        $result = call_user_func_array( array( $this->$className, $method ), $argumentsArray );
+        $result = call_user_func_array( array( $this->$className, $method ), $formattedParams );
 
         return $result;
+    }
+
+    public function formatParams( array $argumentsArray ) {
+
+        // Remove unnecessary params
+        unset( $argumentsArray['className'] );
+        unset( $argumentsArray['method'] );
+
+        // Sort the parameters alphbetically
+        ksort( $argumentsArray );
+        
+        return $argumentsArray;
     }
 }

@@ -7,8 +7,14 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 require_once 'vendor/autoload.php';
 
+// If using xdebug, disable HTML output for debugging API requests
+// HTML cannot be easily read during HTTP POST testing
+if ( function_exists( 'xdebug_disable' ) ) {
+    xdebug_disable();
+}
+
 // Check that the plugin has been initiatlised
-defined('PHPLISTINIT') || die;
+defined( 'PHPLISTINIT' ) || die;
 
 // No HTML-output, please!
 ob_end_clean();
@@ -46,21 +52,34 @@ if ( empty( $plugin->coderoot ) )
     $response->outputErrorMessage( 'Not authorized! Please login with [login] and [password] as admin first!' );
 }
 
-// Check if a command name was specified
-if ( empty( $_REQUEST['cmd'] ) ) {
-    $response->outputMessage( 'No action requested: specify command name using \'cmd\' variable' );
+// Check if the request received was via HTTP post
+if ( $_SERVER['REQUEST_METHOD'] != "POST" ) {
+    $response->outputErrorMessage( 'Requests must be made via HTTP POST. Method of this call: ' . $_SERVER['REQUEST_METHOD'] );
+}
+
+// NOTE: Login authentication is handled by the main phpList application. HTTP
+// POST parameters 'login' and 'password' are required to validate login, else
+// an HTML login form will be returned.
+
+// Check if a command was specified
+if (
+    empty( $_REQUEST['className'] )
+    || empty( $_REQUEST['method'] )
+) {
+    $response->outputErrorMessage( 'No action requested: specify commands via parameters \'className\' and \'method\'' );
 } else {
     // Set command for use later
-    $cmd = $_REQUEST['cmd'];
+    $className = $_REQUEST['className'];
+    $method = $_REQUEST['method'];
 }
 
 // Check the command is callable
-if ( ! $call->isCallable( $cmd ) ) {
+if ( ! $call->validateCall( $className, $method ) ) {
     // Add error message if not callable
-    $response->outputMessage( 'Requested command is not callable' );
+    $response->outputErrorMessage( 'Requested command is not callable' );
 }
 
 // Execute the requested call
-$result = $call->doCall( $cmd, $params );
+$result = $call->doCall( $className, $method, $_POST );
 
 // TODO: Turn output into a response object

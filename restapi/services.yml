@@ -6,8 +6,8 @@ services:
     class:     Rapi\Campiagns
 
 # Classes with dependencies
-  Actions:
-    class:     Rapi\Actions
+  Admin:
+    class:     Rapi\Admin
     arguments: [@Response]
   Common:
     class:     Rapi\Common
@@ -27,7 +27,7 @@ services:
 # It seems order matters; hence Call{} definition goes last, not alphabetically
   Call:
     class:     Rapi\Call
-    arguments: [@Actions, @Lists, @Response, @SubscriberManager, @Templates]
+    arguments: [@Admin, @Lists, @Response, @SubscriberManager, @Templates]
 
 # phpList 4 services
   Logger:

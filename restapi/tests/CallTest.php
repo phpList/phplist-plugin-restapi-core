@@ -34,12 +34,31 @@ class TestCall extends \PHPUnit_Framework_TestCase
 
     public function testIsCallable()
     {
-        // Set command to call
-        $cmd = "listGet";
+        // Set API call arguments
+        $goodClassName = 'subscriberManager';
+        $goodMethod = 'getSubscriber';
         // Check if its callable
-        $result = $this->call->isCallable( $cmd );
+        $result = $this->call->validateCall( $goodClassName, $goodMethod );
         // Test result
         $this->assertTrue( $result );
+
+        // Set bad call args
+        $badClassName = 'subscriber Manager';
+        $badMethod = 'get Subscriber';
+        // Check if its callable
+        $result = $this->call->validateCall( $badClassName, $badMethod );
+        // Test result
+        $this->assertFalse( $result );
+
+        // Test with mixed good and bad
+        $result = $this->call->validateCall( $goodClassName, $badMethod );
+        // Test result
+        $this->assertFalse( $result );
+
+        // Test with mixed good and bad
+        $result = $this->call->validateCall( $badClassName, $goodMethod );
+        // Test result
+        $this->assertFalse( $result );
     }
 
     public function testDoCall()
@@ -51,7 +70,7 @@ class TestCall extends \PHPUnit_Framework_TestCase
         $params = array( 'id' => 2 );
         // Execute the call
         $result = $this->call->doCall( $className, $method, $params );
-        
+
         // TODO: refactor doCall and Common{}->select() so result of doCall() is raw data not a Response{} object
     }
 }

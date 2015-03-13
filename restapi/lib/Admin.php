@@ -5,7 +5,7 @@ namespace Rapi;
 /**
  * Class for account related commands
  */
-class Actions {
+class Admin {
 
     // Response object
     protected $response;
@@ -21,7 +21,7 @@ class Actions {
      * [*login] {string} loginname as an admin to phpList
      * [*password] {string} the password
      */
-    public function login()
+    public function login( $username, $password )
     {
         $this->response->outputMessage( 'Not implemented' );
     }

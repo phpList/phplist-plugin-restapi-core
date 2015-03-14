@@ -7,8 +7,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 require_once 'vendor/autoload.php';
 
-// If using xdebug, disable HTML output for debugging API requests
-// HTML cannot be easily read during HTTP POST testing
+// Disable HTML output as HTML cannot be easily read during HTTP POST testing
+ini_set( 'html_errors', 0 );
+// Disable xdebug HTML output
 if ( function_exists( 'xdebug_disable' ) ) {
     xdebug_disable();
 }
@@ -79,7 +80,19 @@ if ( ! $call->validateCall( $className, $method ) ) {
     $response->outputErrorMessage( 'Requested command is not callable' );
 }
 
-// Execute the requested call
-$result = $call->doCall( $className, $method, $_POST );
+try {
+    // Execute the requested call
+    $callResult = $call->doCall( $className, $method, $_POST );
+} catch ( \Exception $e ) {
+    // If call handler encounters error, turn it into a response
+    $response->outputErrorMessage( 'Call handler error: ' . $e->getMessage() );
+}
 
-// TODO: Turn output into a response object
+// Format call output for making a response
+$resultArray = $call->callResultToArray( $callResult );
+
+// Save output to response
+$response->setData( 'foo', $resultArray );
+
+// Output the response
+$response->output();

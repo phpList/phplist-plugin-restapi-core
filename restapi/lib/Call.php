@@ -89,7 +89,66 @@ class Call {
 
         // Sort the parameters alphbetically
         ksort( $argumentsArray );
-        
+
         return $argumentsArray;
+    }
+
+    /**
+     * Convert any var type to an array suitable for passing to a response
+     * @param mixed $callResult Returned value of an executed API call
+     */
+    public function callResultToArray( $callResult )
+    {
+        $varType = gettype( $callResult );
+
+        switch( $varType ) {
+            case 'array':
+                // Nothing to do, var is already correct type
+                return $callResult;
+            case 'object':
+                // Convert object to array
+                $objectToArray = $this->objectToArray( $callResult );
+                return $objectToArray;
+            case 'resource':
+                // Resource vars probably aren't useful; generate error
+                throw new \Exception( 'Forbidden variable type returned by call: \'' . $varType . '\'' );
+        }
+
+        // Looks like the the var must be simple (string/int/bool etc.)
+        // Put the var in a simple array
+        $callResultArray = array( $callResult );
+
+        return $callResultArray;
+    }
+
+    /**
+    * Convert an object into an associative array
+    *
+    * This function converts an object into an associative array by iterating
+    * over its public properties. Because this function uses the foreach
+    * construct, Iterators are respected. It also works on arrays of objects.
+    *
+    * @return array
+    */
+    function objectToArray( $var )
+    {
+        $result = array();
+        $references = array();
+
+        // loop over elements/properties
+        foreach ( $var as $key => $value ) {
+            // recursively convert objects
+            if (is_object( $value) || is_array( $value ) ) {
+                // but prevent cycles
+                if (!in_array( $value, $references ) ) {
+                    $result[$key] = $this->objectToArray( $value );
+                    $references[] = $value;
+                }
+            } else {
+                // simple values are untouched
+                $result[$key] = utf8_encode( $value );
+            }
+        }
+        return $result;
     }
 }

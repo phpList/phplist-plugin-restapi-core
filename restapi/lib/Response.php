@@ -59,37 +59,6 @@ class Response {
     }
 
     /**
-      * Convert an object into an associative array
-      *
-      * This function converts an object into an associative array by iterating
-      * over its public properties. Because this function uses the foreach
-      * construct, Iterators are respected. It also works on arrays of objects.
-      *
-      * @return array
-      */
-    function objectToArray( $var )
-    {
-        $result = array();
-        $references = array();
-
-        // loop over elements/properties
-        foreach ( $var as $key => $value ) {
-            // recursively convert objects
-            if (is_object( $value) || is_array( $value ) ) {
-                // but prevent cycles
-                if (!in_array( $value, $references ) ) {
-                    $result[$key] = $this->objectToArray( $value );
-                    $references[] = $value;
-                }
-            } else {
-                // simple values are untouched
-                $result[$key] = utf8_encode( $value );
-            }
-        }
-        return $result;
-    }
-
-    /**
      * Convert a value to JSON - improved implementation over stock PHP
      *
      * This function returns a JSON representation of $param. It uses json_encode
@@ -98,11 +67,8 @@ class Response {
      * properties directly but only through an Iterator interface are also encoded
      * correctly.
      */
-    function jsonEncodeIm( $param )
+    function jsonEncodeIm( array $param )
     {
-        if ( is_object( $param ) || is_array( $param ) ) {
-            $param = $this->objectToArray( $param );
-        }
         return json_encode( $param );
     }
 

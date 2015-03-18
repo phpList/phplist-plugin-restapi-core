@@ -13,14 +13,14 @@ class Call {
         , Lists $lists
         // , Campaigns $campaign
         , Response $response
-        , \phpList\SubscriberManager $subscriberManager
+        , \Rapi\Handler\SubscriberHandler $subscriberHandler
         , Templates $templates
     )
     {
         $this->admin = $admin;
         $this->lists = $lists;
         // $this->campaign = $campaign;
-        $this->subscriberManager = $subscriberManager;
+        $this->subscriberHandler = $subscriberHandler;
         $this->response = $response;
         $this->templates = $templates;
     }
@@ -52,6 +52,33 @@ class Call {
     }
 
     /**
+     * Get list of API handlers which are permitted on this server
+     */
+    public function getHandlerWhitelist()
+    {
+        // Manually define a whitelist for now
+        // TODO: set this whitelist in a separate, user-editable config file
+        $whitelist = array(
+            'subscriberHandler'
+        );
+
+        // Return the whitelist
+        return $whitelist;
+    }
+
+    public function isWhitelistedHandler( $className )
+    {
+        // Get whitelisted classnames
+        $whitelistArray = $this->getHandlerWhitelist();
+        // Check if the desired clasname is on the whitelist
+        if ( in_array( $className, $whitelistArray ) ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Execute an api call
      * @param string $className to execute method on
      * @param string $method name of method to execute
@@ -65,11 +92,18 @@ class Call {
 
         // Check if desired class is accessible as a property
         if ( ! property_exists( $this, $className ) ) {
-            throw new \Exception( "Object '$className' is not an accessible Call class property" );
+            throw new \Exception(
+                "Object '$className' is not an available handler object. The following handlers are whitelisted: "
+                . implode( $this->getHandlerWhitelist(), ', ' )
+            );
         }
         // Check that desired method is callable
         if ( ! is_callable( array( $this->$className, $method ) ) ) {
             throw new \Exception( "API call method '$method' not callable on object '$className'" );
+        }
+        // Check that desired classname is allowed
+        if ( ! $this->isWhitelistedHandler( $className ) ) {
+            throw new \Exception( "Requested class name '$className' is not whitelisted on this server" );
         }
 
         // Format the parameters

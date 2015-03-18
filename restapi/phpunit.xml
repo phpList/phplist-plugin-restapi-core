@@ -23,5 +23,6 @@
         <var name="database_name" value="pl" />
         <var name="database_user" value="pl" />
         <var name="database_password" value="pl" />
+        <var name="phpunit4-config-file-path" value="/var/www/pl/public_html/lists/admin/plugins/restapi/vendor/phplist/phplist4-core/config.ini" />
     </php>
 </phpunit>

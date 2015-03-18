@@ -20,7 +20,7 @@ class TestCall extends \PHPUnit_Framework_TestCase
         // Load the service config file, which is in YAML format
         $loader->load( '../services.yml' );
         // Set necessary config class parameter
-        $this->container->setParameter( 'config.configfile', '/var/www/pl4/config.ini' );
+        $this->container->setParameter( 'config.configfile', $GLOBALS['phpunit4-config-file-path'] );
         // These service parameters will be used as constructor arguments for pdoEx{}
         $this->container->setParameter( 'pdoEx.hostname', $GLOBALS['database_host'] );
         $this->container->setParameter( 'pdoEx.username', $GLOBALS['database_user'] );

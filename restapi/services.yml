@@ -20,14 +20,16 @@ services:
     arguments: [%pdoEx.hostname%, %pdoEx.username%, %pdoEx.pass%, %pdoEx.dbname%]
   Subscribers:
     class:     Rapi\Subscribers
-    arguments: [@Common, @PdoEx, @Response]
+  SubscriberHandler:
+    class:     Rapi\Handler\SubscriberHandler
+    arguments: [@SubscriberEntity, @SubscriberManager]
   Templates:
     class:     Rapi\Templates
     arguments: [@Common]
 # It seems order matters; hence Call{} definition goes last, not alphabetically
   Call:
     class:     Rapi\Call
-    arguments: [@Admin, @Lists, @Response, @SubscriberManager, @Templates]
+    arguments: [@Admin, @Lists, @Response, @SubscriberHandler, @Templates]
 
 # phpList 4 services
   Logger:
@@ -76,6 +78,7 @@ services:
     class: phpList\Entity\MailingListEntity
   SubscriberEntity:
     class: phpList\Entity\SubscriberEntity
+    arguments: [%subscriberentity.emailaddress%, %subscriberentity.plainpass%]
   TemplateEntity:
     class: phpList\Entity\TemplateEntity
   TemplateImageEntity:
@@ -99,3 +102,5 @@ parameters:
   config.configfile: config_file
   emailaddress.address: email_address
   password.password: password
+  subscriberentity.emailaddress: placeholder
+  subscriberentity.plainpass: placeholder

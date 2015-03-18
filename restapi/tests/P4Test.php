@@ -36,7 +36,7 @@ class Pl4Test extends \PHPUnit_Framework_TestCase
         // Load the service config file, which is in YAML format
         $loader->load( '../services.yml' );
         // Set necessary config class parameter
-        $this->container->setParameter( 'config.configfile', '/var/www/pl4/config.ini' );
+        $this->container->setParameter( 'config.configfile', $GLOBALS['phpunit4-config-file-path'] );
         // Get objects from container
         $this->config = $this->container->get( 'Config' );
 
@@ -78,9 +78,9 @@ class Pl4Test extends \PHPUnit_Framework_TestCase
     /**
     * @depends testAdd
     */
-    public function testGetSubscriber( array $vars )
+    public function testGetSubscriberById( array $vars )
     {
-        $scrEntity = $this->subscriberManager->getSubscriber( $vars['id'] );
+        $scrEntity = $this->subscriberManager->getSubscriberById( $vars['id'] );
 
         // Check that the correct entity was returned
         $this->assertInstanceOf( '\phpList\Entity\SubscriberEntity', $scrEntity );
@@ -90,35 +90,5 @@ class Pl4Test extends \PHPUnit_Framework_TestCase
         $this->assertEquals( $vars['email'] , $scrEntity->emailAddress );
 
         return $scrEntity;
-    }
-
-    /**
-    * @depends testGetSubscriber
-    */
-    public function testUpdatePass( $scrEntity )
-    {
-        // Set a new password for testing
-        $newPlainPass = 'newEasyPassword';
-        // Update the password
-        $this->subscriberManager->updatePass( $newPlainPass, $scrEntity );
-        // Get a fresh copy of the subscriber from db to check updated details
-        $updatedScrEntity = $this->subscriberManager->getSubscriber( $scrEntity->id );
-
-        // Check that the passwords are not the same; that it was updated
-        $this->assertNotEquals( $scrEntity->encPass, $updatedScrEntity->encPass );
-    }
-
-    /**
-    * @depends testGetSubscriber
-    */
-    public function testDelete( $scrEntity )
-    {
-        // Delete the testing subscribers
-        // NOTE: These entities are used in other tests and must be deleted in
-        // whatever method users them last
-        $result = $this->subscriberManager->delete( $scrEntity->id );
-
-        // Check that delete was successful
-        $this->assertTrue( $result );
     }
 }

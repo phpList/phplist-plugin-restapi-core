@@ -86,40 +86,7 @@ class TestResponse extends \PHPUnit_Framework_TestCase
     {
         // Todo: test jsonEncodeIm() first
     }
-    public function testObjectToAray()
-    {
-        // Create dummy array for testing
-        $object = new stdClass();
-        $object->prop1 = 1;
-        $object->prop2 = 2;
-        $object->prop3 = 3;
-        $object->array = array(
-            1 => 1
-            , 2 => 'two'
-            , 'three' => 3
-        );
 
-        // Convert object to array
-        $convertedObject = $this->response->objectToArray( $object );
-
-        // Check result is an array
-        $this->assertTrue( is_array( $convertedObject ) );
-
-        // Check all properties were converted
-        $this->assertEquals( 4, count( $convertedObject ) );
-
-        // Check properties were converted and labelled
-        $this->assertEquals( 1, $convertedObject['prop1'] );
-        $this->assertEquals( 2, $convertedObject['prop2'] );
-        $this->assertEquals( 3, $convertedObject['prop3'] );
-
-        // Test array members were converted and labelled
-        $this->assertEquals( 1, $convertedObject['array'][1] );
-        $this->assertEquals( 'two', $convertedObject['array'][2] );
-        $this->assertEquals( 3, $convertedObject['array']['three'] );
-
-
-    }
     public function testJsonEncodeIm()
     {
     }

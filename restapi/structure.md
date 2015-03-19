@@ -6,10 +6,10 @@ The Rest API (Rapi) plugin uses a combination of call listeners, action handlers
 
 A call is processed in the following order:
 
--> call.php (procedural plugin page)
--> Call{} class (validates and passes call to appropriate handler)
--> Handler{} class (prepares arguments for passing to external library)
--> phpList 4 library class (core class of phpList 4)
+1. call.php (procedural plugin page)
+1. Call{} class (validates and passes call to appropriate handler)
+1. Handler{} class (prepares arguments for passing to external library)
+1. phpList 4 library class (core class of phpList 4)
 
 ### call.php
 

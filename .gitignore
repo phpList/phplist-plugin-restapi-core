@@ -1,2 +1,3 @@
 restapi/vendor/
 restapi/composer.lock
+restapi/config.php

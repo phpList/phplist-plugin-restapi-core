@@ -25,18 +25,14 @@ class Pl4Test extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
+        // Access the Symfony DI container object which was setup during bootstrap
+        global $container;
+        $this->container = $container;
+
         // Create a randomised email addy to register with
         $this->emailAddress = 'unittest-' . rand( 0, 999999 ) . '@example.com';
         $this->plainPass = 'easypassword';
 
-        // Create Symfony DI service container object for use by other classes
-        $this->container = new ContainerBuilder();
-        // Create new Symfony file loader to handle the YAML service config file
-        $loader = new YamlFileLoader( $this->container, new FileLocator(__DIR__) );
-        // Load the service config file, which is in YAML format
-        $loader->load( '../services.yml' );
-        // Set necessary config class parameter
-        $this->container->setParameter( 'config.configfile', $GLOBALS['phpunit4-config-file-path'] );
         // Get objects from container
         $this->config = $this->container->get( 'Config' );
 

@@ -19,7 +19,7 @@ class SubscriberHandler
         , $bounceCount = 0
         , $confirmed = 1
         , $disabled = 0
-        , $emailAddress = "fdfs@dsadas.csa"
+        , $emailAddress = ""
         , $encPass = ""
         , $entered = ""
         , $extraData = ""

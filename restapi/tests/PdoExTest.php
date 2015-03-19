@@ -9,15 +9,13 @@ class TestPdoEx extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->pdoEx = new Rapi\PdoEx(
-            $GLOBALS['database_host']
-            , $GLOBALS['database_user']
-            , $GLOBALS['database_password']
-            , $GLOBALS['database_name']
-        );
+        // Access the Symfony DI container object which was setup during bootstrap
+        global $container;
+        $this->container = $container;
 
-        // Mock necessary globals
-        $this->response = new \Rapi\Response();
+        // Get objects
+        $this->pdoEx = $this->container->get( 'PdoEx');
+        $this->response =  $this->container->get( 'Response');
     }
 
     public function testDoQuery()

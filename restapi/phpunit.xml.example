@@ -6,7 +6,7 @@
     </testsuites>
     <php>
         <!-- Constants -->
-        <const name='API_URL_BASE_PATH' value='http://local.pl/lists/admin/?page=call&amp;pi=restapi'/>
+        <const name='API_URL_BASE_PATH' value=''/>
         <const name='API_LOGIN_USERNAME' value='admin'/>
         <const name='API_LOGIN_PASSWORD' value='phplist'/>
         <!-- Absolute path to system's temporary directory -->
@@ -18,11 +18,11 @@
 
         <!-- Variables -->
         <var name="database_host" value="localhost" />
-        <var name="DB_PORT" value="3306" />
+        <var name="DB_PORT" value='3306' />
         // !! Change these vars to fit your local config !!
-        <var name="database_name" value="pl" />
-        <var name="database_user" value="pl" />
-        <var name="database_password" value="pl" />
-        <var name="phpunit4-config-file-path" value="/var/www/pl/public_html/lists/admin/plugins/restapi/vendor/phplist/phplist4-core/config.ini" />
+        <var name="database_name" value='' />
+        <var name="database_user" value='' />
+        <var name="database_password" value='' />
+        <var name="phpunit4-config-file-path" value='' />
     </php>
 </phpunit>

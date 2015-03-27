@@ -24,9 +24,10 @@ class Call {
         $this->subscriberHandler = $subscriberHandler;
     }
     /**
-     * Validate a requested call
-     * @param
-     * @return bool
+     * Validate a requested call by checking characters and syntax
+     * @param string $className Name of class to validate
+     * @param string $method Name of method to validate
+     * @return bool $result
      */
     public function validateCall( $className, $method )
     {
@@ -51,7 +52,7 @@ class Call {
     }
 
     /**
-     * Get list of API handlers which are permitted on this server
+     * Get list of API handler class names which are permitted on this server
      */
     public function getHandlerWhitelist()
     {
@@ -65,6 +66,10 @@ class Call {
         return $whitelist;
     }
 
+    /**
+     * Check if the supplied class name is permitted by the whitelist
+     * @param string $className Class name to check
+     */
     public function isWhitelistedHandler( $className )
     {
         // Get whitelisted classnames
@@ -78,7 +83,7 @@ class Call {
     }
 
     /**
-     * Execute an api call
+     * Validate an API call and execute the requested method on handler object
      * @param string $className to execute method on
      * @param string $method name of method to execute
      * @param array $argumentsArray arguments to pass to method
@@ -114,6 +119,10 @@ class Call {
         return $result;
     }
 
+    /**
+     * Format raw user-privded API call parameters for passing to handler object
+     * @param array $argumentsArray user-supplied API call parameters
+     */
     public function formatParams( array $argumentsArray ) {
 
         // Remove unnecessary params
@@ -160,20 +169,20 @@ class Call {
     * This function converts an object into an associative array by iterating
     * over its public properties. Because this function uses the foreach
     * construct, Iterators are respected. It also works on arrays of objects.
-    *
-    * @return array
+    * @param object $object The object to be converted
+    * @return array $result Converted object
     */
-    function objectToArray( $var )
+    function objectToArray( $object )
     {
         $result = array();
         $references = array();
 
         // loop over elements/properties
-        foreach ( $var as $key => $value ) {
+        foreach ( $object as $key => $value ) {
             // recursively convert objects
-            if (is_object( $value) || is_array( $value ) ) {
+            if ( is_object( $value ) || is_array( $value ) ) {
                 // but prevent cycles
-                if (!in_array( $value, $references ) ) {
+                if ( !in_array( $value, $references ) ) {
                     $result[$key] = $this->objectToArray( $value );
                     $references[] = $value;
                 }

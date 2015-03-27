@@ -8,6 +8,13 @@ namespace Rapi;
  */
 class PdoEx extends \PDO {
 
+    /**
+     * Connect to database with minimal validation
+     * @param string $hostname Database hostname
+     * @param string $username Username for database login
+     * @param string $pass     Pasword for database login
+     * @param string $dbname   Name of the database to connect to
+     */
     public function __construct( $hostname, $username, $pass, $dbname )
     {
         // Check that DSN values are not set to default values
@@ -47,9 +54,9 @@ class PdoEx extends \PDO {
     }
 
     /**
-     * Execute a query
-     * @param [type]  $sql      [description]
-     * @param boolean $isSingle [description]
+     * Execute a query, optionionally return first record only
+     * @param string  $sql      SQL to execute
+     * @param boolean $isSingle Flag indicating how many records to return
      */
     public function doQuery( $sql, $isSingle = false )
     {
@@ -68,7 +75,7 @@ class PdoEx extends \PDO {
     * Execute an SQL select query and generate Response object
     * @param  string $type   [description]
     * @param  string $sql SQL string to execute
-    * @param  bool $single Whether only one record should be returned
+    * @param  bool $isSingle Whether only one record should be returned
     * @return Response $response Generated Response object
     */
     public function doQueryResponse( Response $response, $sql, $type, $isSingle = false )

@@ -3,10 +3,8 @@
 namespace Rapi;
 
 /**
- * Common response as success and error
- * Andreas Ek, 2012-12-26
+ * Class to handle generation of responses to API calls over HTTP
  */
-
 class Response {
 
     private $result;
@@ -72,24 +70,42 @@ class Response {
         return json_encode( $param );
     }
 
-    static function outputError( $e ){
+    /**
+     * Take an Exception and output it to an error response
+     * @param Exception $e Exception object
+     */
+    static function outputError( \Exception $e ){
         $response = new Response();
         $response->setError( $e->getCode(), $e->getMessage() );
         $response->output();
     }
 
+    /**
+     * Generate and output an error response from an error message
+     * @note Wraps other error handling methods for convenience
+     * @param string $message Error message
+     */
     static function outputErrorMessage( $message ){
         $response = new Response();
         $response->setError( 0, $message );
         $response->output();
     }
 
+    /**
+     * Generate and output a response for successful deletion of something
+     * @param [type] $type [description]
+     * @param [type] $id   [description]
+     */
     static function outputDeleted( $type, $id ){
         $response = new Response();
         $response->setData( $type, 'Item with ' . $id . ' is successfully deleted!' );
         $response->output();
     }
 
+    /**
+     * Generate and output a generic system message as a response
+     * @param string $message System message
+     */
     static function outputMessage( $message ){
         $response = new Response();
         $response->setData( 'SystemMessage', $message );

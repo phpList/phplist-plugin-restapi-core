@@ -2,9 +2,19 @@
 
 namespace Rapi\Handler;
 
+/**
+ * Class to handle API calls to SubscriberManager{}
+ */
 class SubscriberHandler
  {
-     public function __construct( \phpList\Entity\SubscriberEntity $scrEntity, \phpList\SubscriberManager $subscriberManager )
+    /**
+     * Set object properties
+     * @param SubscriberEntity $scrEntity
+     * @param SubscriberManager $subscriberManager
+     */
+     public function __construct(
+        \phpList\Entity\SubscriberEntity $scrEntity
+        , \phpList\SubscriberManager $subscriberManager )
      {
          $this->scrEntity = $scrEntity;
          $this->subscriberManager = $subscriberManager;
@@ -50,6 +60,7 @@ class SubscriberHandler
 
      /**
      * Insert a new subscriber with only an email address
+     * @param string $emailAddress Address of the new subscriber
      * @return int ID of new subscriber
      */
      public function addEmailOnly( $emailAddress )
@@ -62,12 +73,20 @@ class SubscriberHandler
 
      }
 
+     /**
+      * Get a subscriber by their ID
+      * @param int $id ID of the subscriber to fetch
+      */
      public function getById( $id )
      {
         // Get the subscriber & return
          return $this->subscriberManager->getSubscriberById( $id );
      }
 
+     /**
+      * Delete a subscriber by their ID
+      * @param int $id ID of the subscriber to delete
+      */
      public function delete( $id )
      {
          // delete the subscriber and return

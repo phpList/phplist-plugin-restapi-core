@@ -30,8 +30,11 @@ $loader = new YamlFileLoader( $container, new FileLocator( __DIR__ ) );
 // Load the service config file, which is in YAML format
 $loader->load( 'services.yml' );
 
+// Set default path to host phpList instance config file
+//$hostParentConfigPath = $_SERVER['DOCUMENT_ROOT'] . '/lists/config/config.php';
+
 // Set necessary config class parameter
-$container->setParameter( 'config.configfile', dirname(__FILE__) . '/config.php' );
+$container->setParameter( 'config.configfile', $GLOBALS['configfile'] );
 // Set service parameters for the database connection
 // These service parameters will be used as constructor arguments for pdoEx{}
 $container->setParameter( 'pdoEx.hostname', $GLOBALS['database_host'] );

@@ -3,26 +3,25 @@
 namespace Rapi;
 
 /**
- * Class handle API call functionality and execution
- * @note This class is ignorant of call output and forwards it transparently
+ * Class to handle API call functionality and execution
+ * @note This class is ignorant of call output and forwards it transparently --
+ * e.g. returned values aren't formatted
  */
 class Call {
 
+    /**
+     * Constructor requires all classes that may handle calls as arguments
+     * @note To add support for an API call, add it's parent class to arguments
+     * @param Lists             $lists
+     * @param SubscriberHandler $subscriberHandler
+     */
     public function __construct(
-        Admin $admin
-        , Lists $lists
-        // , Campaigns $campaign
-        , Response $response
+        Lists $lists
         , \Rapi\Handler\SubscriberHandler $subscriberHandler
-        , Templates $templates
     )
     {
-        $this->admin = $admin;
         $this->lists = $lists;
-        // $this->campaign = $campaign;
         $this->subscriberHandler = $subscriberHandler;
-        $this->response = $response;
-        $this->templates = $templates;
     }
     /**
      * Validate a requested call

@@ -137,11 +137,14 @@ ASKFORPASSWORD = 0;
 ; $ php -r 'var_dump(hash_algos());';
 ; 'sha256' is fairly common on the latest systems, but if your system is very old (not a good idea)
 ; you may want to set it to 'sha1' or 'md5'
+;
+; To be compatible with older installations of phpList, MD5 must be used
+;
 ; if you use encrypted passwords, users can only request you as an administrator to
 ; reset the password. They will not be able to request the password from
 ; the system
 ; if you change this, you may have to use the 'Forgot password' system to get back in your installation
-ENCRYPTION_ALGO = "sha256";
+ENCRYPTION_ALGO = "md5";
 
 ; if you also want to force people who unsubscribe to provide a password before
 ; processing their unsubscription, set this to 1. You need to have the above one set

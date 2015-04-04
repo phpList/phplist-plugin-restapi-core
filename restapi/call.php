@@ -31,9 +31,9 @@ $loader = new YamlFileLoader( $container, new FileLocator( __DIR__ ) );
 $loader->load( 'services.yml' );
 
 // Set default path to host phpList instance config file
-// NOTE: This config file must be in phpList 4
-// NOTE: Parent phpList 3 config file path available at: $GLOBALS['configfile']
-$configFilePath = dirname(__FILE__) . '/config.sample.php';
+// NOTE: This config file must be in phpList 4 ini format
+// NOTE: Parent phpList 3 config file path available via: $GLOBALS['configfile']
+$configFilePath = dirname( __FILE__ ) . '/config-phplist4.php';
 
 // Set necessary config class parameter
 $container->setParameter( 'config.configfile', $configFilePath );

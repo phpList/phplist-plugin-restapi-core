@@ -16,7 +16,7 @@ class Call {
      * @param SubscriberHandler $subscriberHandler
      */
     public function __construct(
-        , \Rapi\Handler\SubscriberHandler $subscriberHandler
+        \Rapi\Handler\SubscriberHandler $subscriberHandler
     )
     {
         $this->subscriberHandler = $subscriberHandler;

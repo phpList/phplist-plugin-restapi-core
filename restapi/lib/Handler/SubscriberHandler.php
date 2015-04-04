@@ -21,7 +21,7 @@ class SubscriberHandler
      }
 
      /**
-      * Insert a new subscriber
+      * Insert a new subscriber with complete subscriber details
       * @return int ID of new subscriber
       */
      public function add(
@@ -44,7 +44,7 @@ class SubscriberHandler
         , $subscribePage = ""
     )
      {
-        // Mak an array of all those function arguments for easier handling
+        // Make an array of all those function arguments for easier handling
         $argsArray = get_defined_vars();
 
         // Loop through each function argument

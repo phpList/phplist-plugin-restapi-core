@@ -42,25 +42,34 @@ $url = $common->apiUrl( $website, $pageroot, '/admin/' );
 <h1>REST API</h1>
 
     <h2>Version 0.2.5</h2>
-    <p>The plugin provides a REST API to phpList.<br/> Development by <a href='http://samtuke.com'>Sam Tuke, <a href='http://phplist.com'>Michiel Dethmers</a>. Original development by <a href='https://twitter.com/ekandreas'>Andreas Ek</a> of Flowcom AB.</p>
+    <p>The plugin provides a REST API to phpList.<br/> Development by <a href='http://samtuke.com'>Sam Tuke, <a href='http://phplist.com'>Michiel Dethmers</a>. Based on work by <a href='https://twitter.com/ekandreas'>Andreas Ek</a> of Flowcom AB.</p>
 
     <h2>Commands</h2>
-    <p>
-        To discover all commands to this API just make a GET request or click here:<br/>
-        <a href='<?php echo $url; ?>'>phpList API Command Reference list</a><br/>
-        The documentation is generated in realtime.
-    </p>
+    <h3>Subscriber actions</h3>
+    <dl>
+        <dt>add</dt>
+        <dd>Insert a new subscriber with complete subscriber details</dd>
+
+        <dt>addEmailOnly</dt>
+        <dd>Insert a new subscriber with only an email address</dd>
+
+        <dt>getById</dt>
+        <dd>Get a subscriber by their ID</dd>
+
+        <dt>delete</dt>
+        <dd>Delete a subscriber by their ID</dd>
+    </dl>
 
     <h2>Access</h2>
-    <p>
-        Autentication required as admin in phpList.<br/>
-        All requests to the RESTAPI is made by method POST.<br/>
-        RESTAPI-Url to this installation:<br/>
-        <a href='<?php echo $url; ?>'><?php echo $url; ?></a>
-    </p>
-    <p>
-        First login to phpList with method POST and body parameters 'login' and 'password'.<br/>
-    </p>
+    <p>phpList admin autentication is required. This can be completed via an API call, or via web form login. The session must be authenticated for plugin access.</p>
+
+    <h3>Login authentication</h3>
+    <p>Logging in via an API call is different to other calls - login is handled by the host phpList installation and not by the plugin itself.</p>
+    <p>Simply send an HTTP POST request with two parameters to login remotely: <code>login</code> and <code>password</code>.
+    <p>All requests to the RESTAPI are made by method HTTP POST (GET is not allowed). Use of HTTPS is strongly recommended.</p>
+
+    <h3>URL</h3>
+    <p>Make API calls to the following URL:<br/><a href='<?php echo $url; ?>'><?php echo $url; ?></a> </p>
 
     <h2>Client</h2>
     <p>
@@ -69,10 +78,19 @@ $url = $common->apiUrl( $website, $pageroot, '/admin/' );
         For examples check commands in restapi-test/main.php
     </p>
 
+    <h2>Configuration</h2>
+    <h3>Access permission</h3>
+    <p>Allowable API calls are defined in <code>whitelist.php</code>. Both sets of actions (e.g. subscriber-related calls), and also individual calls (e.g. delete subscriber) may be white or blacklisted.</p>
+    <h3>phpList 4</h3>
+    <p>The plugin uses phpList 4 as an external library for handling execution of API calls. phpList4 settings can be added in <code>config-phplist4.php</code>.
+
     <h2>More information</h2>
-    <p>
-        See the readme file in this plugin's root directory for further instructions (<code>README.md</code>).
-    </p>
+    <p>Documentation files:</p>
+
+    <ul>
+        <li><code>README.md</code></li>
+        <li><code>INSTALL.md</code></li>
+    </ul>
 
     <h2>Issues</h2>
     <p>

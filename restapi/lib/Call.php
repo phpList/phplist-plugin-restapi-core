@@ -52,13 +52,25 @@ class Call {
     /**
      * Get list of API handler class names which are permitted on this server
      */
-    public function getHandlerWhitelist()
+    public function getHandlerWhitelist( $whitelistPath = NULL )
     {
-        // Manually define a whitelist for now
-        // TODO: set this whitelist in a separate, user-editable config file
-        $whitelist = array(
-            'subscriberHandler'
-        );
+        // If a whitelist config file path was not specified, use default
+        if ( NULL === $whitelistPath ) {
+            $whitelistPath =  dirname( __FILE__ ) . '/../whitelist.php';
+        }
+
+        // Load the whitelist config file
+        // NOTE: This should result in var $whitelist being initialised
+        if ( ! include( $whitelistPath ) ) {
+            // If whitelist config file couldn't be found
+            throw new \Exception( 'Call action whitelist configuration file could not be loaded' );
+        } elseif( ! isset( $whitelist ) ) {
+            // If the file was loaded but contained no whitelist variable
+            throw new \Exception( 'Whitelist config file does not contain variable $whitelist' );
+        } elseif( ! is_array( $whitelist ) ) {
+            // If whitelist is set but is not an array
+            throw new \Exception( 'Whitelist config file variable $whitelist is not an array' );
+        }
 
         // Return the whitelist
         return $whitelist;

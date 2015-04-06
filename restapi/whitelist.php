@@ -1,0 +1,5 @@
+<?php
+
+$whitelist = array(
+    'subscriberHandler'
+);

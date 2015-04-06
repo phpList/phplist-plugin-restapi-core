@@ -59,6 +59,8 @@ $pl4Config->setRunningConfig( 'DATABASE_PASSWORD', $GLOBALS['database_password']
 $pl4Config->setRunningConfig( 'DATABASE_DSN', 'mysql:host=' . $GLOBALS['database_host'] . ';port=3306;dbname=' . $GLOBALS['database_name'] );
 $pl4Config->setRunningConfig( 'TABLE_PREFIX', $GLOBALS['table_prefix'] );
 $pl4Config->setRunningConfig( 'USERTABLE_PREFIX', $GLOBALS['usertable_prefix'] );
+// FIXME: Set this hashing algo from phpList3's config instead
+$pl4Config->setRunningConfig( 'ENCRYPTION_ALGO', 'md5' );
 
 if ( function_exists( 'api_request_log' ) )
 {

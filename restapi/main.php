@@ -37,7 +37,13 @@ $common = $container->get( 'Common' );
 // TODO: Replace hardcoded admin url with one set centrally
 $url = $common->apiUrl( $website, $pageroot, '/admin/' );
 
+// Import CSS from plugin
+$css = file_get_contents( dirname(__FILE__) . '/style.css' );
+// Inject CSS into page
+echo "<style>$css</style>";
+
 ?>
+<link rel="stylesheet" type="text/css" href="<?php echo dirname(__FILE__); ?>/style.css"/>
 
 <h1>REST API</h1>
 
@@ -69,14 +75,11 @@ $url = $common->apiUrl( $website, $pageroot, '/admin/' );
     <p>All requests to the RESTAPI are made by method HTTP POST (GET is not allowed). Use of HTTPS is strongly recommended.</p>
 
     <h3>URL</h3>
-    <p>Make API calls to the following URL:<br/><a href='<?php echo $url; ?>'><?php echo $url; ?></a> </p>
+    <p>The URL for making API calls to this server is:<br/><strong><a href='<?php echo $url; ?>'><?php echo $url; ?></a></strong></p>
 
-    <h2>Client</h2>
-    <p>
-        To try the RESTAPI, please use a client like CocaRestClient or eqvivalent!<br/>
-        There is an example class in restapi-test/phplist_restapi_helper.php if you like to try it in PHP.<br/>
-        For examples check commands in restapi-test/main.php
-    </p>
+    <h2>Clients and examples</h2>
+    <p> Make test calls to the RESTAPI using a client such as <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en" rel="nofollow" target="blank">Postman</a> for Chrome/Chromium browsers, or <a href="https://mmattozzi.github.io/cocoa-rest-client/" rel="nofollow" target="blank">CocaRestClient</a>.</p>
+    <p>Implementation examples in PHP can be found in <code>example.php</code>, and in unit test cases.</p>
 
     <h2>Configuration</h2>
     <h3>Access permission</h3>

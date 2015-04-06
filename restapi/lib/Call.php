@@ -50,9 +50,10 @@ class Call {
     }
 
     /**
-     * Get list of API handler class names which are permitted on this server
+     * Get API call configuraiton whitelist
+     * @param string $whitelistPath Path to whitelist configuration file
      */
-    public function getHandlerWhitelist( $whitelistPath = NULL )
+    public function getWhitelistConfig( $whitelistPath = NULL )
     {
         // If a whitelist config file path was not specified, use default
         if ( NULL === $whitelistPath ) {
@@ -80,16 +81,21 @@ class Call {
      * Check if the supplied class name is permitted by the whitelist
      * @param string $className Class name to check
      */
-    public function isWhitelistedHandler( $className )
+    public function isCallWhitelisted( $className, $method )
     {
         // Get whitelisted classnames
-        $whitelistArray = $this->getHandlerWhitelist();
-        // Check if the desired clasname is on the whitelist
-        if ( in_array( $className, $whitelistArray ) ) {
-            return true;
-        } else {
+        $whitelistArray = $this->getWhitelistConfig();
+
+        if ( true !== $whitelistArray[$className]['enabled'] ) {
+            // If requested class is disabled
+            return false;
+        } elseif( true !== $whitelistArray[$className]['methods'][$method] ) {
+            // if requested method is disabled
             return false;
         }
+
+        // All checks passed
+        return true;
     }
 
     /**
@@ -115,9 +121,9 @@ class Call {
         if ( ! is_callable( array( $this->$className, $method ) ) ) {
             throw new \Exception( "API call method '$method' not callable on object '$className'" );
         }
-        // Check that desired classname is allowed
-        if ( ! $this->isWhitelistedHandler( $className ) ) {
-            throw new \Exception( "Requested class name '$className' is not whitelisted on this server" );
+        // Check that desired call is whitelisted
+        if ( ! $this->isCallWhitelisted( $className, $method ) ) {
+            throw new \Exception( "Requested call '$className::$method' is not whitelisted on this server" );
         }
 
         // Format the parameters

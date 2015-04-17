@@ -22,4 +22,10 @@ $whitelist = array(
             , 'delete' => true
         )
     )
+    , 'listHandler' => array(
+        'enabled' => true
+        , 'methods' => array(
+            'addSubscriber' => true
+        )
+    )
 );

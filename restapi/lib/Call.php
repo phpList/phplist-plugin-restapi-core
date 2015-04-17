@@ -16,10 +16,12 @@ class Call {
      * @param SubscriberHandler $subscriberHandler
      */
     public function __construct(
-        \Rapi\Handler\SubscriberHandler $subscriberHandler
+        \Rapi\Handler\ListHandler $listHandler
+        , \Rapi\Handler\SubscriberHandler $subscriberHandler
     )
     {
-        $this->subscriberHandler = $subscriberHandler;
+        $this->listHandler = $listHandler;
+        $this->subscriberHandler = $subscriberHandler;#
     }
     /**
      * Validate a requested call by checking characters and syntax
@@ -86,7 +88,10 @@ class Call {
         // Get whitelisted classnames
         $whitelistArray = $this->getWhitelistConfig();
 
-        if ( true !== $whitelistArray[$className]['enabled'] ) {
+        if (
+            ! isset( $whitelistArray[$className] )
+            || true !== $whitelistArray[$className]['enabled']
+        ) {
             // If requested class is disabled
             return false;
         } elseif( true !== $whitelistArray[$className]['methods'][$method] ) {
@@ -113,8 +118,7 @@ class Call {
         // Check if desired class is accessible as a property
         if ( ! property_exists( $this, $className ) ) {
             throw new \Exception(
-                "Object '$className' is not an available handler object. The following handlers are whitelisted: "
-                . implode( $this->getHandlerWhitelist(), ', ' )
+                "Object '$className' is not an available handler object"
             );
         }
         // Check that desired method is callable

@@ -20,16 +20,22 @@ services:
     arguments: [%pdoEx.hostname%, %pdoEx.username%, %pdoEx.pass%, %pdoEx.dbname%]
   Subscribers:
     class:     Rapi\Subscribers
-  SubscriberHandler:
-    class:     Rapi\Handler\SubscriberHandler
-    arguments: [@SubscriberEntity, @SubscriberManager]
   Templates:
     class:     Rapi\Templates
     arguments: [@Common]
+
+# Handler classes
+  SubscriberHandler:
+    class:     Rapi\Handler\SubscriberHandler
+    arguments: [@SubscriberEntity, @SubscriberManager]
+  ListHandler:
+    class:     Rapi\Handler\ListHandler
+    arguments: [@ListEntity, @ListManager, @SubscriberEntity]
+
 # It seems order matters; hence Call{} definition goes last, not alphabetically
   Call:
     class:     Rapi\Call
-    arguments: [@SubscriberHandler]
+    arguments: [@ListHandler, @SubscriberHandler]
 
 # phpList 4 services
   Logger:
@@ -58,12 +64,6 @@ services:
   Campaign:
     class: phpList\Campaign
     arguments: [@Config, @Database, @MailingList, @Template]
-  MailingList:
-    class: phpList\MailingList
-    arguments: [@Config, @Database]
-  SubscriberManager:
-    class: phpList\SubscriberManager
-    arguments: [@Config, @EmailUtil, @Pass, @SubscriberModel]
   Template:
     class: phpList\Template
     arguments: [@Config, @Database, @TemplateImage]
@@ -74,8 +74,8 @@ services:
 # Entities
   CampaignEntity:
     class: phpList\Entity\CampaignEntity
-  MailingListEntity:
-    class: phpList\Entity\MailingListEntity
+  ListEntity:
+    class: phpList\Entity\ListEntity
   SubscriberEntity:
     class: phpList\Entity\SubscriberEntity
     arguments: [%subscriberentity.emailaddress%, %subscriberentity.plainpass%]
@@ -84,7 +84,18 @@ services:
   TemplateImageEntity:
     class: phpList\Entity\TemplateImageEntity
 
+# Managers
+  ListManager:
+    class: phpList\ListManager
+    arguments: [@Config, @Database, @ListModel]
+  SubscriberManager:
+    class: phpList\SubscriberManager
+    arguments: [@Config, @EmailUtil, @Pass, @SubscriberModel]
+
 # Models
+  ListModel:
+    class: phpList\Model\ListModel
+    arguments: [@Config, @Database]
   SubscriberModel:
     class: phpList\Model\SubscriberModel
     arguments: [@Config, @Database]

@@ -36,9 +36,25 @@ An unlimited number of call parameters can be accepted, and are passed to Handle
 
 ### Handler{} class
 
-Handler classes are simple wrappers for the phpList 4 class method that they represent. Some phpList class methods require, for example, Entity objects as arguments (see phpList 4 documentation for an explanation of Entity data objects). As Entity objects cannot be provided by an HTTP POST call, they must be generated and populated with the correct properties, before a call to the required phpList 4 class method can be made. Other processing may also be necessary, of both the arguments sent to class methods, and the responses received from them.
+Handler classes are simple wrappers for the phpList 4 class method that they represent.
 
-Handler classes are an abstraction layber between the plugin and low level actions, providing great flexibility. classNames and method names exposed via the API can be changed, if necessary, without any impact on the underlaying phpList 4 classes which handle the request. However maintaining parity between Handler method names and the methods of the classes which they call is recommended to avoid confusion.
+#### Purpose
+
+Some phpList class methods require, for example, Entity objects as arguments (see phpList 4 documentation for an explanation of Entity data objects). As Entity objects cannot be provided by an HTTP POST call, they must be generated and populated with the correct properties, before a call to the required phpList 4 class method can be made. Other processing may also be necessary, of both the arguments sent to class methods, and the responses received from them.
+
+#### Benefits
+
+Handler classes are an abstraction layer between the plugin and low level actions, providing great flexibility. classNames and method names exposed via the API can be changed, if necessary, without any impact on the underlaying phpList 4 classes which handle the request. However maintaining parity between Handler method names and the methods of the classes which they call is recommended to avoid confusion.
+
+#### Limitations
+
+* Handler methods which support multiple arguments **must** provide those arguments in the correct order. E.g. POST requests should provide arguments in this order:
+    - className (e.g. ```subscriberHandler```)
+    - method (e.g. ```add```)
+    - argument 1 (e.g. ```blacklisted```)
+    - argument 2 (e.g. ```bounceCount```)
+    - argument 3 (e.g. ```confirmed```)
+    - ...
 
 ### phpList 4 library class
 

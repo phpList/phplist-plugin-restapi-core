@@ -69,3 +69,8 @@ phpList 4 package versions, hosted on packagist, are important. As phpList 4 dev
 Authentication is handled by the host phpList application. In phpList 3, the first API call must always be to login to the application. This is achieved by simply supplying two POST parameters: 'login', and 'password'. No action, className, or method are required. An HTML response will be returned if login fails. This is not controllable by the plugin at this time due to phpList 3 architecture.
 
 Once authentication has been successful, API calls can be made using HTTP POST. HTTP GET calls are not accepted for security reasons.
+
+#### Limitations
+
+* Upon a successful login over the REST API, an html page will be returned, not a proper API response. This is due to the centralised handling of plugins and authentication in phpList.
+* Upon an attempt to login by a client that is already logged in, a API response will be returned with an error message that no action was requested.

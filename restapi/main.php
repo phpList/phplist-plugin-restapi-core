@@ -49,7 +49,7 @@ echo "<style>$css</style>";
 
 <p><strong>License: GPLv3 or later</strong></p>
 
-<p>The plugin provides a REST API to phpList.<br/> Development by <a href='http://samtuke.com'>Sam Tuke, <a href='http://phplist.com'>Michiel Dethmers</a>. Based on work by <a href='https://twitter.com/ekandreas'>Andreas Ek</a> of Flowcom AB.</p>
+<p>The plugin provides a REST API to phpList.<br/> Development by <a href='http://samtuke.com'>Sam Tuke</a>, <a href='http://phplist.com'>Michiel Dethmers</a>. Based on work by <a href='https://twitter.com/ekandreas'>Andreas Ek</a> of Flowcom AB.</p>
 
 <h2>Commands</h2>
 

@@ -69,7 +69,7 @@ of API calls. phpList4 settings can be added in `config-phplist4.php`.
 
 ## More information
 
-See the `docs` folder for detailed documentation on the structure and usage of this plugin.
+See the `/docs` folder for detailed documentation on the structure and usage of this plugin.
 
 ## Issues
 

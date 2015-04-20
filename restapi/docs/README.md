@@ -2,7 +2,7 @@
 
 License: GPLv3 or later
 
-The plugin provides a REST API to phpList. Development by [Sam Tuke,](http://samtuke.com), [Michiel Dethmers](http://phplist.com). Based on work by [Andreas Ek](https://twitter.com/ekandreas) of Flowcom AB.
+The plugin provides a REST API to phpList. Development by [Sam Tuke](http://samtuke.com), [Michiel Dethmers](http://phplist.com). Based on work by [Andreas Ek](https://twitter.com/ekandreas) of Flowcom AB.
 
 ## Commands
 

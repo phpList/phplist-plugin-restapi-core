@@ -62,16 +62,16 @@ Allowable API calls are defined in `whitelist.php`. Both sets of actions
 (e.g. subscriber-related calls), and also individual calls (e.g. delete
     subscriber) may be white or blacklisted.
 
-    ### phpList 4
+### phpList 4
 
-    The plugin uses phpList 4 as an external library for handling execution
-    of API calls. phpList4 settings can be added in `config-phplist4.php`.
+The plugin uses phpList 4 as an external library for handling execution
+of API calls. phpList4 settings can be added in `config-phplist4.php`.
 
-    ## More information
+## More information
 
-    See the `docs` folder for detailed documentation on the structure and usage of this plugin.
+See the `docs` folder for detailed documentation on the structure and usage of this plugin.
 
-    ## Issues
+## Issues
 
-    Report issues to the central phpList [bug
-    tracker](https://mantis.phplist.com/).
+Report issues to the central phpList [bug
+tracker](https://mantis.phplist.com/).

@@ -58,7 +58,7 @@ unit test cases.
 
 ### Access permission
 
-Allowable API calls are defined in `whitelist.php`. Both sets of actions
+Allowable API calls are defined in `/whitelist.php`. Both sets of actions
 (e.g. subscriber-related calls), and also individual calls (e.g. delete
     subscriber) may be white or blacklisted.
 

@@ -21,7 +21,7 @@ class TestPdoEx extends \PHPUnit_Framework_TestCase
     public function testDoQuery()
     {
         $result = $this->pdoEx->doQuery(
-            'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user_user LIMIT 1'
+            'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user LIMIT 1'
         );
         // Check that a PDO object was returned
         $this->assertTrue( is_array( $result ) );
@@ -35,7 +35,7 @@ class TestPdoEx extends \PHPUnit_Framework_TestCase
     {
         $response = $this->pdoEx->doQueryResponse(
             $this->response
-            , 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user_user LIMIT 1'
+            , 'SELECT * FROM ' . $GLOBALS['usertable_prefix'] . 'user LIMIT 1'
             , 'Users'
         );
         // Check that a response object was returned

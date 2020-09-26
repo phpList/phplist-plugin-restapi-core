@@ -11,7 +11,7 @@
         "phpunit/dbunit": "1.3.*",
         "phpunit/phpunit-selenium": "*",
         "facebook/webdriver": "dev-master",
-        "phpdocumentor/phpdocumentor": "2.*"
+        "phpdocumentor/phpdocumentor": "^2.9.1"
     },
     "autoload": {
         "psr-4": {

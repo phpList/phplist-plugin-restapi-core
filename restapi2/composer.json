@@ -1,17 +1,17 @@
 {
     "require": {
-        "symfony/dependency-injection": "~2.6",
-        "symfony/yaml": "~2.6",
-        "symfony/config": "~2.6",
+        "symfony/dependency-injection": "^2.8",
+        "symfony/yaml": "^2.8",
+        "symfony/config": "^2.8",
         "phplist/phplist4-core": "dev-master"
     },
     "require-dev": {
-        "symfony/debug": "2.5.*",
-        "phpunit/phpunit": "4.2.*",
-        "phpunit/dbunit": "1.3.*",
-        "phpunit/phpunit-selenium": "*",
+        "symfony/debug": "^2.8",
+        "phpunit/phpunit": "^4.8",
+        "phpunit/dbunit": "^1.4",
+        "phpunit/phpunit-selenium": "2.0",
         "facebook/webdriver": "dev-master",
-        "phpdocumentor/phpdocumentor": "^2.9.1"
+        "phpdocumentor/phpdocumentor": "^2.9"
     },
     "autoload": {
         "psr-4": {
